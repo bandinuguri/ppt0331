@@ -62,6 +62,8 @@ function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+const BASE_URL = import.meta.env.BASE_URL;
+
 // --- Data ---
 const occurrenceData = [
   { year: '2020', accidents: 14, converted: 0.27, flights: 518518 },
@@ -570,7 +572,7 @@ export default function App() {
           </div>
         </div>
       <div className="mt-8 relative -mx-8 md:-mx-12 w-[calc(100%+4rem)] md:w-[calc(100%+6rem)]">
-        <img src="/images/con-04.jpg" alt="Ground Safety Accident Definition" className="w-full h-auto shadow-lg" referrerPolicy="no-referrer" />
+        <img src={`${BASE_URL}images/con-04.jpg`} alt="Ground Safety Accident Definition" className="w-full h-auto shadow-lg" referrerPolicy="no-referrer" />
       </div>
       </div>
     </WebSlide>,
@@ -582,7 +584,7 @@ export default function App() {
         title="지상안전사고 유형" 
       />
       <div className="mt-8 w-full">
-        <img src="/images/con-03.jpg" alt="Ground Safety Accident Types" className="w-full h-auto rounded-2xl shadow-lg" referrerPolicy="no-referrer" />
+        <img src={`${BASE_URL}images/con-03.jpg`} alt="Ground Safety Accident Types" className="w-full h-auto rounded-2xl shadow-lg" referrerPolicy="no-referrer" />
       </div>
     </WebSlide>,
 
@@ -1074,7 +1076,7 @@ export default function App() {
       />
       <div className="flex-1 min-h-0 mt-4 rounded-3xl overflow-hidden border border-neutral-200 shadow-2xl relative bg-neutral-50 flex items-center justify-center">
         <img 
-          src="/images/batang.jpg" 
+          src={`${BASE_URL}images/batang.jpg`} 
           alt="Ground Safety Website" 
           className="w-full h-full object-contain scale-90"
           referrerPolicy="no-referrer"
