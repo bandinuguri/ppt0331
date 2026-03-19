@@ -349,47 +349,6 @@ export default function App() {
   const [selectedWord, setSelectedWord] = useState<{ text: string, content: string, airport?: string, date?: string, cause?: string } | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const totalSlides = slides.length;
-
-  const nextSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev + 1) % totalSlides);
-  }, []);
-
-  const prevSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
-  }, []);
-
-  const toggleFullscreen = () => {
-    if (!document.fullscreenElement) {
-      containerRef.current?.requestFullscreen();
-      setIsFullscreen(true);
-    } else {
-      document.exitFullscreen();
-      setIsFullscreen(false);
-    }
-  };
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
-      if (e.key === 'ArrowLeft') prevSlide();
-      if (e.key === 'f') toggleFullscreen();
-    };
-
-    const handleContextMenu = (e: MouseEvent) => {
-      e.preventDefault();
-      prevSlide();
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('contextmenu', handleContextMenu);
-    
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('contextmenu', handleContextMenu);
-    };
-  }, [nextSlide, prevSlide]);
-
   const slides = [
     // Slide 1: Hero / Title
     <WebSlide>
@@ -1220,6 +1179,47 @@ export default function App() {
   React.useEffect(() => {
     console.log('Slides array initialized with', slides.length, 'slides');
   }, []);
+
+  const totalSlides = slides.length;
+
+  const nextSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev + 1) % totalSlides);
+  }, [totalSlides]);
+
+  const prevSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
+  }, [totalSlides]);
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      containerRef.current?.requestFullscreen();
+      setIsFullscreen(true);
+    } else {
+      document.exitFullscreen();
+      setIsFullscreen(false);
+    }
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+      if (e.key === 'ArrowLeft') prevSlide();
+      if (e.key === 'f') toggleFullscreen();
+    };
+
+    const handleContextMenu = (e: MouseEvent) => {
+      e.preventDefault();
+      prevSlide();
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('contextmenu', handleContextMenu);
+    
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('contextmenu', handleContextMenu);
+    };
+  }, [nextSlide, prevSlide]);
 
   return (
     <div 
