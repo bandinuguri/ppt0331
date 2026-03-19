@@ -379,9 +379,7 @@ export default function App() {
           <span className="text-sm font-mono uppercase tracking-widest opacity-40">Introduction</span>
         </div>
         <h1 className="text-8xl font-black tracking-tighter leading-none mb-12">
-          지상조업 <br />
-          <span className="text-blue-600">안전사고예방</span> <br />
-          간담회
+          지상조업 <span className="text-blue-600">안전사고예방</span> 간담회
         </h1>
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
@@ -434,7 +432,7 @@ export default function App() {
             </div>
           </div>
 
-          <div className="mt-4">
+          <div className="mt-12">
             <h3 className="text-3xl font-bold mb-4 flex items-center gap-4">
               <Clock className="text-blue-600" size={32} />
               세부일정
@@ -478,14 +476,14 @@ export default function App() {
           label="Attachment 2" 
           title="추진체계" 
         />
-        <div className="mt-6 flex flex-col gap-4">
+        <div className="mt-6 flex flex-col gap-8">
         <div className="flex gap-6 p-6 bg-white border border-neutral-200 rounded-[2.5rem] shadow-md hover:shadow-xl transition-all hover:-translate-y-1">
           <div className="w-24 h-24 bg-blue-600 rounded-3xl flex items-center justify-center text-white shrink-0 shadow-lg shadow-blue-100">
             <Building2 size={48} />
           </div>
           <div className="flex flex-col justify-center space-y-2">
             <h3 className="text-3xl font-black text-blue-600">국토교통부</h3>
-            <ul className="space-y-1 text-2xl text-neutral-700 font-medium leading-tight">
+            <ul className="space-y-1 text-[26px] text-neutral-700 font-medium leading-tight">
               <li className="flex items-start gap-4">
                 <ChevronRight className="mt-1.5 shrink-0 text-blue-500" size={24} />
                 간담회 개최, 지상조업사고 통계·교육자료 작성
@@ -507,7 +505,7 @@ export default function App() {
           </div>
           <div className="flex flex-col justify-center space-y-2">
             <h3 className="text-3xl font-black text-neutral-800">공항 공사</h3>
-            <ul className="space-y-1 text-2xl text-neutral-700 font-medium leading-tight">
+            <ul className="space-y-1 text-[26px] text-neutral-700 font-medium leading-tight">
               <li className="flex items-start gap-4">
                 <ChevronRight className="mt-1.5 shrink-0 text-neutral-500" size={24} />
                 항공사, 지상조업사 간담회 참석 및 개선 아이디어 제출 협조 요청
@@ -530,7 +528,7 @@ export default function App() {
           </div>
           <div className="flex flex-col justify-center space-y-2">
             <h3 className="text-3xl font-black text-emerald-600">지상조업사</h3>
-            <ul className="space-y-1 text-2xl text-neutral-700 font-medium leading-tight">
+            <ul className="space-y-1 text-[26px] text-neutral-700 font-medium leading-tight">
               <li className="flex items-start gap-4">
                 <ChevronRight className="mt-1.5 shrink-0 text-emerald-500" size={24} />
                 지상조업 근로자 교육, 안전 장비 확충, 근로환경 및 처우 개선 등
