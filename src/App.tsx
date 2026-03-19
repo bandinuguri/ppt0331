@@ -100,34 +100,53 @@ const majorCases2025 = [
 
 // --- Components ---
 
-const PenaltyTable = ({ data }: { data: any[] }) => (
-  <div className="w-full bg-white rounded-[2.5rem] overflow-hidden shadow-2xl border border-neutral-100 h-full flex flex-col">
-    <table className="w-full flex-1 border-collapse table-fixed">
-      <thead>
-        <tr className="bg-neutral-900 text-white text-base uppercase tracking-wider">
-          <th className="py-6 px-4 text-center border-r border-white/10 w-[8%]">구분</th>
-          <th className="py-6 px-8 text-center border-r border-white/10 w-[52%]">위반사항</th>
-          <th className="py-6 px-2 text-center border-r border-white/10 w-[13.3%]">1차</th>
-          <th className="py-6 px-2 text-center border-r border-white/10 w-[13.3%]">2차</th>
-          <th className="py-6 px-2 text-center w-[13.3%]">3차</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((row, i) => (
-          <tr key={i} className="border-b border-neutral-100 hover:bg-neutral-50 transition-colors">
-            <td className="py-1 px-4 font-mono text-sm text-neutral-400 border-r border-neutral-100 text-center align-middle">{row.id}</td>
-            <td className="py-1 px-10 font-bold border-r border-neutral-100 leading-[1.1] text-[28px] align-middle text-neutral-900">
-              <div className="line-clamp-2 break-keep">{row.title}</div>
-            </td>
-            <td className="py-1 px-2 text-center border-r border-neutral-100 text-neutral-600 text-xs align-middle font-bold whitespace-pre-line">{row.c1 || row.first}</td>
-            <td className="py-1 px-2 text-center border-r border-neutral-100 text-neutral-600 text-xs align-middle font-bold whitespace-pre-line">{row.c2 || row.second}</td>
-            <td className="py-1 px-2 text-center text-neutral-600 text-xs align-middle font-bold whitespace-pre-line">{row.c3 || row.third}</td>
+const PenaltyTable = ({ data }: { data: any[] }) => {
+  const formatText = (text: string) => {
+    if (!text || text === '-') return text;
+    // "0일" 패턴 찾기 (10일, 20일, 40일 등)
+    const match = text.match(/(\d+일)/g);
+    if (match) {
+      let result = text;
+      match.forEach(dayText => {
+        result = result.replace(
+          dayText,
+          `<span class="text-[14px] text-blue-600 font-bold">${dayText}</span>`
+        );
+      });
+      return <span dangerouslySetInnerHTML={{ __html: result }} />;
+    }
+    return text;
+  };
+
+  return (
+    <div className="w-full bg-white rounded-[2.5rem] overflow-hidden shadow-2xl border border-neutral-100 h-full flex flex-col">
+      <table className="w-full flex-1 border-collapse table-fixed">
+        <thead>
+          <tr className="bg-neutral-900 text-white text-base uppercase tracking-wider">
+            <th className="py-6 px-4 text-center border-r border-white/10 w-[8%]">구분</th>
+            <th className="py-6 px-8 text-center border-r border-white/10 w-[52%]">위반사항</th>
+            <th className="py-6 px-2 text-center border-r border-white/10 w-[13.3%]">1차</th>
+            <th className="py-6 px-2 text-center border-r border-white/10 w-[13.3%]">2차</th>
+            <th className="py-6 px-2 text-center w-[13.3%]">3차</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
-);
+        </thead>
+        <tbody>
+          {data.map((row, i) => (
+            <tr key={i} className="border-b border-neutral-100 hover:bg-neutral-50 transition-colors">
+              <td className="py-1 px-4 font-mono text-sm text-neutral-400 border-r border-neutral-100 text-center align-middle">{row.id}</td>
+              <td className="py-1 px-10 font-bold border-r border-neutral-100 leading-[1.1] text-[28px] align-middle text-neutral-900">
+                <div className="line-clamp-2 break-keep">{row.title}</div>
+              </td>
+              <td className="py-1 px-2 text-center border-r border-neutral-100 text-neutral-600 text-xs align-middle font-bold whitespace-pre-line">{formatText(row.c1 || row.first)}</td>
+              <td className="py-1 px-2 text-center border-r border-neutral-100 text-neutral-600 text-xs align-middle font-bold whitespace-pre-line">{formatText(row.c2 || row.second)}</td>
+              <td className="py-1 px-2 text-center text-neutral-600 text-xs align-middle font-bold whitespace-pre-line">{formatText(row.c3 || row.third)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
 
 const SectionHeader = ({ label, title, description }: { label: string, title: string, description?: string }) => (
   <div className="mb-4">
@@ -569,7 +588,7 @@ export default function App() {
             <p className="text-xl opacity-60">모든 사고는 예방 가능합니다.</p>
           </div>
         </div>
-      <div className="mt-8 relative -mx-8 md:-mx-12 w-[calc(100%+4rem)] md:w-[calc(100%+6rem)]">
+      <div className="absolute bottom-0 left-0 right-0 -mx-8 md:-mx-12">
         <img src={`${BASE_URL}images/con-05.jpg`} alt="Ground Safety Information Banner" className="w-full h-auto" referrerPolicy="no-referrer" />
       </div>
       </div>
@@ -582,7 +601,7 @@ export default function App() {
         title="지상안전사고 유형" 
       />
       <div className="flex-1 flex items-center justify-center mt-4">
-        <img src={`${BASE_URL}images/con-03.jpg`} alt="Ground Safety Accident Types" className="max-w-full max-h-full object-contain rounded-2xl shadow-lg" referrerPolicy="no-referrer" />
+        <img src={`${BASE_URL}images/con-03.jpg`} alt="Ground Safety Accident Types" className="max-w-full max-h-full object-contain rounded-2xl shadow-lg scale-110" referrerPolicy="no-referrer" />
       </div>
     </WebSlide>,
 
@@ -957,7 +976,7 @@ export default function App() {
             </div>
 
             <div className="flex-1 flex flex-col justify-center">
-              <p className="text-[32px] leading-[3] text-neutral-200 font-medium mb-4 tracking-tight">
+              <p className="text-[34px] leading-[3] text-neutral-200 font-medium mb-4 tracking-tight">
                 지상안전사고의 대부분은 <span className="text-white font-bold border-b-4 border-blue-600 pb-1">인적 요인</span>에 의해 발생하며,<br />
                 특히 <span className="text-blue-400 font-bold">운전자 및 작업자의 부주의</span>가<br />
                 사고의 결정적인 원인이 되고 있습니다.
@@ -972,7 +991,7 @@ export default function App() {
                   </div>
                   <h4 className="font-bold text-2xl text-white">전방 주시 태만</h4>
                 </div>
-                <p className="text-lg text-neutral-400 leading-relaxed">이동 중 주변 상황 확인 소홀 및<br />스마트폰 사용 등 집중력 분산</p>
+                <p className="text-[20px] text-neutral-400 leading-relaxed">이동 중 주변 상황 확인 소홀 및<br />스마트폰 사용 등 집중력 분산</p>
               </div>
               <div className="bg-white/5 backdrop-blur-md p-6 rounded-3xl border border-white/10 hover:bg-white/10 transition-all">
                 <div className="flex items-center gap-4 mb-3">
@@ -981,7 +1000,7 @@ export default function App() {
                   </div>
                   <h4 className="font-bold text-2xl text-white">운전 미숙</h4>
                 </div>
-                <p className="text-lg text-neutral-400 leading-relaxed">익숙한 작업 환경에서의 긴장감 완화 및<br />기본 조작 절차 누락</p>
+                <p className="text-[20px] text-neutral-400 leading-relaxed">익숙한 작업 환경에서의 긴장감 완화 및<br />기본 조작 절차 누락</p>
               </div>
             </div>
           </div>
@@ -1004,7 +1023,7 @@ export default function App() {
                   <div className={cn("w-1.5 h-6 rounded-full", item.color)} />
                   {item.title}
                 </h4>
-                <p className="text-lg text-neutral-500 leading-snug font-medium">{item.desc}</p>
+                <p className="text-[20px] text-neutral-500 leading-snug font-medium">{item.desc}</p>
               </div>
             </div>
           ))}
