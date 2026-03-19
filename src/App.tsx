@@ -388,31 +388,32 @@ export default function App() {
           label="Contents" 
           title="목차" 
         />
-        <div className="mt-12 grid grid-cols-2 gap-x-16 gap-y-6 max-w-6xl">
+        <div className="mt-12 grid grid-cols-2 gap-x-20 gap-y-6 max-w-7xl mx-auto">
           {[
             { num: "01", title: "간담회 개요" },
-            { num: "02", title: "지상안전사고란?" },
-            { num: "03", title: "지상안전사고 유형" },
-            { num: "04", title: "지상안전 사고 신고" },
-            { num: "05", title: "지상안전 사고 행정처분 기준" },
-            { num: "06", title: "지상안전 사고 발생 현황" },
-            { num: "07", title: "공항별 사고 발생 현황" },
-            { num: "08", title: "'25년 지상안전사고 예방 목표 달성 현황" },
-            { num: "09", title: "지상안전 사고 원인" },
-            { num: "10", title: "25년 주요 사고 사례 및 갤러리" },
-            { num: "11", title: "'공항 지상안전사고 예방' 웹사이트 소개" }
+            { num: "02", title: "추진체계" },
+            { num: "03", title: "지상안전사고란?" },
+            { num: "04", title: "지상안전사고 유형" },
+            { num: "05", title: "지상안전 사고 신고" },
+            { num: "06", title: "지상안전 사고 행정처분 기준" },
+            { num: "07", title: "지상안전 사고 발생 현황" },
+            { num: "08", title: "공항별 사고 발생 현황" },
+            { num: "09", title: "'25년 지상안전사고 예방 목표 달성 현황" },
+            { num: "10", title: "지상안전 사고 원인" },
+            { num: "11", title: "25년 주요 사고 사례 및 갤러리" },
+            { num: "12", title: "'공항 지상안전사고 예방' 웹사이트 소개" }
           ].map((item, idx) => (
             <motion.div
               key={idx}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: idx * 0.05 }}
-              className="flex items-center gap-6 p-6 bg-white rounded-2xl border border-neutral-100 hover:border-blue-600 hover:shadow-lg transition-all group"
+              className="flex items-center gap-6 p-6 bg-white rounded-2xl border border-neutral-100 hover:border-blue-600 hover:shadow-lg transition-all group min-w-0"
             >
-              <div className="w-16 h-16 bg-blue-600 rounded-xl flex items-center justify-center text-white font-black text-2xl group-hover:scale-110 transition-transform">
+              <div className="w-16 h-16 bg-blue-600 rounded-xl flex items-center justify-center text-white font-black text-2xl group-hover:scale-110 transition-transform shrink-0">
                 {item.num}
               </div>
-              <h3 className="text-2xl font-bold text-neutral-900 group-hover:text-blue-600 transition-colors">
+              <h3 className="text-2xl font-bold text-neutral-900 group-hover:text-blue-600 transition-colors whitespace-nowrap">
                 {item.title}
               </h3>
             </motion.div>
@@ -1102,7 +1103,7 @@ export default function App() {
           const rect = e.currentTarget.getBoundingClientRect();
           const x = ((e.clientX - rect.left) / rect.width) * 100;
           const y = ((e.clientY - rect.top) / rect.height) * 100;
-          const img = e.currentTarget.querySelector('img') as HTMLImageElement;
+          const img = e.currentTarget.querySelector('img.website-img') as HTMLImageElement;
           if (img) {
             img.style.transformOrigin = `${x}% ${y}%`;
           }
@@ -1111,13 +1112,23 @@ export default function App() {
         <img 
           src={`${BASE_URL}images/batang.jpg`} 
           alt="Ground Safety Website" 
-          className="w-full h-full object-contain scale-90 transition-transform duration-300 group-hover:scale-[2.2]"
+          className="website-img w-full h-full object-contain scale-90 transition-transform duration-300 group-hover:scale-[2.2]"
           style={{ transformOrigin: '50% 50%' }}
           referrerPolicy="no-referrer"
         />
-        <div className="absolute bottom-8 left-8 bg-white/90 backdrop-blur-md p-6 rounded-2xl border border-white shadow-xl">
-          <p className="text-2xl font-black text-neutral-900 mb-2">지금 바로 접속하세요</p>
-          <p className="text-lg font-bold text-blue-600">bandinuguri.github.io/safe/</p>
+        <div className="absolute bottom-8 left-8 bg-white/90 backdrop-blur-md p-6 rounded-2xl border border-white shadow-xl flex items-center gap-6">
+          <div>
+            <p className="text-2xl font-black text-neutral-900 mb-2">지금 바로 접속하세요</p>
+            <p className="text-lg font-bold text-blue-600">bandinuguri.github.io/safe/</p>
+          </div>
+          <div className="group/qr relative">
+            <img 
+              src={`${BASE_URL}images/qr-code.jpg`} 
+              alt="QR Code" 
+              className="w-24 h-24 rounded-lg border-2 border-neutral-200 transition-all duration-300 group-hover/qr:scale-[3] group-hover/qr:shadow-2xl group-hover/qr:z-50"
+              referrerPolicy="no-referrer"
+            />
+          </div>
         </div>
       </div>
     </WebSlide>,
@@ -1171,17 +1182,32 @@ export default function App() {
           </motion.div>
         </motion.div>
 
-        {/* Bottom Action Button */}
-        <motion.button
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
-          onClick={() => setCurrentSlide(0)}
-          className="absolute bottom-12 left-1/2 -translate-x-1/2 group flex items-center gap-3 px-6 py-3 bg-white border-2 border-neutral-200 rounded-xl hover:border-blue-600 hover:bg-blue-50 transition-all shadow-lg hover:shadow-xl"
-        >
-          <span className="text-lg font-bold text-neutral-700 group-hover:text-blue-600">처음으로 돌아가기</span>
-          <ArrowRight className="text-blue-600 group-hover:translate-x-1 transition-transform" />
-        </motion.button>
+        {/* Bottom Action Buttons */}
+        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-4">
+          <motion.button
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.2 }}
+            onClick={() => setCurrentSlide(0)}
+            className="group flex items-center gap-3 px-6 py-3 bg-white border-2 border-neutral-200 rounded-xl hover:border-blue-600 hover:bg-blue-50 transition-all shadow-lg hover:shadow-xl"
+          >
+            <span className="text-lg font-bold text-neutral-700 group-hover:text-blue-600">처음으로 돌아가기</span>
+            <ArrowRight className="text-blue-600 group-hover:translate-x-1 transition-transform" />
+          </motion.button>
+          
+          <motion.button
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.4 }}
+            onClick={() => window.print()}
+            className="group flex items-center gap-3 px-6 py-3 bg-blue-600 text-white border-2 border-blue-600 rounded-xl hover:bg-blue-700 hover:border-blue-700 transition-all shadow-lg hover:shadow-xl"
+          >
+            <span className="text-lg font-bold">PDF 저장</span>
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </motion.button>
+        </div>
       </div>
     </WebSlide>
   ];
@@ -1239,6 +1265,7 @@ export default function App() {
       className="fixed inset-0 bg-white overflow-hidden select-none cursor-default"
       onClick={nextSlide}
     >
+      {/* 화면 표시용 슬라이드 */}
       <AnimatePresence mode="wait">
         <motion.div
           key={currentSlide}
@@ -1246,15 +1273,24 @@ export default function App() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="h-full w-full"
+          className="h-full w-full print:hidden"
         >
           {slides[currentSlide]}
         </motion.div>
       </AnimatePresence>
 
+      {/* 프린트용 모든 슬라이드 (화면에서는 숨김) */}
+      <div className="hidden print:block slide-container">
+        {slides.map((slide, idx) => (
+          <div key={idx} className="web-slide">
+            {slide}
+          </div>
+        ))}
+      </div>
+
       {/* Navigation Controls */}
       <div 
-        className="absolute bottom-12 right-12 flex items-center gap-6 z-50"
+        className="absolute bottom-12 right-12 flex items-center gap-6 z-50 no-print"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center gap-4">
