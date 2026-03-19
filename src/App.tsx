@@ -560,37 +560,43 @@ export default function App() {
   </WebSlide>,
 
     // Slide 2: 지상안전사고란?
-    <WebSlide overflowHidden={false}>
-      <SectionHeader 
-        label="01. Definition" 
-        title="지상안전사고란?" 
-      />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-        <div className="space-y-8">
-          <div className="p-8 bg-blue-50 border-l-4 border-blue-600 rounded-r-2xl">
-            <h3 className="text-2xl font-bold mb-4">정의</h3>
-            <p className="text-2xl text-neutral-800 leading-relaxed">
-              "지상안전사고"란 공항 보호구역에서 사람, 시설, 차량 및 장비 등으로 인하여 <span className="font-bold text-black text-[1.1em]">인명피해가 발생하거나</span> <span className="font-bold text-black text-[1.1em]">항공기,</span> <span className="font-bold text-black text-[1.1em]">시설, 차량등에 물적피해가 발생한 것</span>을 말한다. 다만, 항공기 운항과 관련된 사고는 제외한다.
-            </p>
+    <WebSlide>
+      <div className="h-full flex flex-col justify-center">
+        <SectionHeader 
+          label="01. Definition" 
+          title="지상안전사고란?" 
+        />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-8">
+          <div className="space-y-8">
+            <div className="p-8 bg-blue-50 border-l-4 border-blue-600 rounded-r-2xl">
+              <h3 className="text-2xl font-bold mb-4">정의</h3>
+              <p className="text-2xl text-neutral-800 leading-relaxed">
+                "지상안전사고"란 공항 보호구역에서 사람, 시설, 차량 및 장비 등으로 인하여 <span className="font-bold text-black text-[1.1em]">인명피해가 발생하거나</span> <span className="font-bold text-black text-[1.1em]">항공기,</span> <span className="font-bold text-black text-[1.1em]">시설, 차량등에 물적피해가 발생한 것</span>을 말한다. 다만, 항공기 운항과 관련된 사고는 제외한다.
+              </p>
+            </div>
+            <div className="p-8 bg-neutral-50 border-l-4 border-neutral-400 rounded-r-2xl">
+              <h3 className="text-2xl font-bold mb-4">법적 근거</h3>
+              <ul className="space-y-2 text-lg text-neutral-600">
+                <li>• 공항시설법 제31조의2, 제31조의3</li>
+                <li>• 공항안전운영기준(국토교통부 고시)</li>
+              </ul>
+            </div>
           </div>
-          <div className="p-8 bg-neutral-50 border-l-4 border-neutral-400 rounded-r-2xl">
-            <h3 className="text-2xl font-bold mb-4">법적 근거</h3>
-            <ul className="space-y-2 text-lg text-neutral-600">
-              <li>• 공항시설법 제31조의2, 제31조의3</li>
-              <li>• 공항안전운영기준(국토교통부 고시)</li>
-            </ul>
+          <div className="flex items-center justify-center bg-neutral-900 rounded-3xl p-12 text-white relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/10 blur-[100px] rounded-full" />
+            <div className="text-center relative z-10">
+              <AlertTriangle size={100} className="mx-auto mb-8 text-amber-500 drop-shadow-[0_0_20px_rgba(245,158,11,0.5)]" />
+              <p className="text-5xl font-black mb-6 leading-tight tracking-tight">
+                하늘 위의 안전!<br />
+                <span className="text-amber-400">지상에서 시작</span>됩니다.
+              </p>
+              <div className="w-24 h-1 bg-amber-500 mx-auto mt-6" />
+            </div>
           </div>
         </div>
-        <div className="flex items-center justify-center bg-neutral-900 rounded-3xl p-12 text-white">
-          <div className="text-center">
-            <AlertTriangle size={80} className="mx-auto mb-6 text-amber-500" />
-            <p className="text-3xl font-bold mb-4">안전은 선택이 아닌 필수</p>
-            <p className="text-xl opacity-60">모든 사고는 예방 가능합니다.</p>
-          </div>
+        <div className="mt-8">
+          <img src={`${BASE_URL}images/con-05.jpg`} alt="Ground Safety Information Banner" className="w-full h-auto rounded-xl" referrerPolicy="no-referrer" />
         </div>
-      <div className="absolute bottom-0 left-0 right-0 -mx-8 md:-mx-12">
-        <img src={`${BASE_URL}images/con-05.jpg`} alt="Ground Safety Information Banner" className="w-full h-auto" referrerPolicy="no-referrer" />
-      </div>
       </div>
     </WebSlide>,
 
@@ -978,7 +984,7 @@ export default function App() {
             <div className="flex-1 flex flex-col justify-center">
               <p className="text-[34px] leading-[3] text-neutral-200 font-medium mb-4 tracking-tight">
                 지상안전사고의 대부분은 <span className="text-white font-bold border-b-4 border-blue-600 pb-1">인적 요인</span>에 의해 발생하며,<br />
-                특히 <span className="text-blue-400 font-bold">운전자 및 작업자의 부주의</span>가<br />
+                특히 <span className="text-blue-400 font-bold text-[39px]">운전자 및 작업자의 부주의</span>가<br />
                 사고의 결정적인 원인이 되고 있습니다.
               </p>
             </div>
