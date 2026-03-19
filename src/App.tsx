@@ -1148,8 +1148,34 @@ export default function App() {
         </button>
       </div>
     </WebSlide>,
+
+    // Slide 15: Outro
+    <WebSlide>
+      <div className="h-full flex flex-col justify-center items-start">
+        <motion.span 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-[10px] font-mono uppercase tracking-[0.5em] mb-4 text-blue-600 font-bold"
+        >
+          Conclusion
+        </motion.span>
+        <h2 className="text-[8vw] font-bold tracking-tighter leading-[0.8] mb-8">
+          SAFE GROUND<br />
+          <span className="text-blue-600">SAFE FLIGHT.</span>
+        </h2>
+        <p className="text-xl text-neutral-500 max-w-2xl leading-tight mb-8">
+          안전은 타협의 대상이 아닙니다. 우리의 철저한 준비가 모두의 안전을 보장합니다.
+        </p>
+        <button 
+          onClick={() => setCurrentSlide(0)}
+          className="group flex items-center gap-4 text-lg font-bold border-b-2 border-black pb-1 hover:gap-8 transition-all"
+        >
+          Restart Presentation <ArrowRight className="text-blue-600" />
+        </button>
+      </div>
+    </WebSlide>,
     
-    // Final Slide: Thank You
+    // Slide 16: Thank You
     <WebSlide>
       <div className="h-full flex flex-col justify-center items-center text-center relative overflow-hidden">
         {/* Background Gradient Effects */}
