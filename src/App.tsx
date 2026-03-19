@@ -1097,11 +1097,23 @@ export default function App() {
         label="14. Platform" 
         title="'공항 지상안전사고 예방' 웹사이트" 
       />
-      <div className="flex-1 min-h-0 mt-4 rounded-3xl overflow-hidden border border-neutral-200 shadow-2xl relative bg-neutral-50 flex items-center justify-center">
+      <div 
+        className="flex-1 min-h-0 mt-4 rounded-3xl overflow-hidden border border-neutral-200 shadow-2xl relative bg-neutral-50 flex items-center justify-center group"
+        onMouseMove={(e) => {
+          const rect = e.currentTarget.getBoundingClientRect();
+          const x = ((e.clientX - rect.left) / rect.width) * 100;
+          const y = ((e.clientY - rect.top) / rect.height) * 100;
+          const img = e.currentTarget.querySelector('img') as HTMLImageElement;
+          if (img) {
+            img.style.transformOrigin = `${x}% ${y}%`;
+          }
+        }}
+      >
         <img 
           src={`${BASE_URL}images/batang.jpg`} 
           alt="Ground Safety Website" 
-          className="w-full h-full object-contain scale-90"
+          className="w-full h-full object-contain scale-90 transition-transform duration-300 group-hover:scale-125"
+          style={{ transformOrigin: '50% 50%' }}
           referrerPolicy="no-referrer"
         />
         <div className="absolute bottom-8 left-8 bg-white/90 backdrop-blur-md p-6 rounded-2xl border border-white shadow-xl">
