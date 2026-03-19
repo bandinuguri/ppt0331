@@ -149,7 +149,7 @@ const PenaltyTable = ({ data }: { data: any[] }) => {
 };
 
 const SectionHeader = ({ label, title, description }: { label: string, title: string, description?: string }) => (
-  <div className="mb-4">
+  <div className="absolute top-12 left-12 right-12 z-10">
     <motion.span 
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
@@ -179,8 +179,8 @@ const SectionHeader = ({ label, title, description }: { label: string, title: st
 );
 
 const WebSlide = ({ children, className, overflowHidden = true }: { children: React.ReactNode, className?: string, overflowHidden?: boolean }) => (
-  <div className={cn("web-slide h-full w-full flex flex-col p-8 md:p-12 bg-white text-black font-sans selection:bg-black selection:text-white", className)}>
-    <div className={cn("flex-1 flex flex-col", overflowHidden && "overflow-hidden")}>
+  <div className={cn("web-slide h-full w-full flex flex-col p-8 md:p-12 bg-white text-black font-sans selection:bg-black selection:text-white relative", className)}>
+    <div className={cn("flex-1 flex flex-col pt-32", overflowHidden && "overflow-hidden")}>
       {children}
     </div>
     <div className="mt-6 flex justify-between items-center text-[10px] font-mono uppercase tracking-widest border-t border-black/10 pt-4">
