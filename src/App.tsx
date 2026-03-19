@@ -269,7 +269,7 @@ const GoalTable = ({ title, flights, data, total, isSmall = false }: { title: st
       </h3>
       <span className={cn("font-mono text-neutral-400 font-bold", isSmall ? "text-xs" : "text-lg")}>운항횟수: {flights}</span>
     </div>
-    <table className={cn("w-full border-collapse", isSmall ? "text-sm" : "text-xl")}>
+    <table className={cn("w-full border-collapse", isSmall ? "text-lg" : "text-xl")}>
       <thead>
         <tr className="bg-neutral-50 text-neutral-500 font-bold border-b border-neutral-100">
           <th className={cn("text-left", isSmall ? "py-3 px-3" : "py-5 px-5")}>세부지표</th>
@@ -284,7 +284,7 @@ const GoalTable = ({ title, flights, data, total, isSmall = false }: { title: st
             <td className={cn("font-bold text-neutral-800", isSmall ? "py-3 px-3" : "py-5 px-5")}>{row.category}</td>
             <td className={cn("text-center text-neutral-400 font-mono", isSmall ? "py-3 px-3" : "py-5 px-5")}>{row.goal}</td>
             <td className={cn("text-center font-black", isSmall ? "py-3 px-3" : "py-5 px-5", row.warning ? "bg-red-50 text-red-600" : "text-neutral-700")}>
-              {row.performance} {row.percent && <span className="text-[0.7em] font-normal opacity-60 ml-1">({row.percent})</span>}
+              {row.performance} {row.percent && <span className="text-[0.8em] font-normal opacity-60 ml-1">({row.percent})</span>}
             </td>
             <td className={cn("text-center font-black text-neutral-900", isSmall ? "py-3 px-3" : "py-5 px-5")}>{row.count}</td>
           </tr>
@@ -292,8 +292,8 @@ const GoalTable = ({ title, flights, data, total, isSmall = false }: { title: st
         <tr className="bg-neutral-900 text-white font-bold">
           <td className={cn(isSmall ? "py-4 px-3" : "py-6 px-5")}>{total.label}</td>
           <td className={cn("text-center opacity-30", isSmall ? "py-4 px-3" : "py-6 px-5")}>-</td>
-          <td className={cn("text-center text-blue-400 font-black", isSmall ? "py-4 px-3 text-xl" : "py-6 px-5 text-3xl")}>{total.performance}</td>
-          <td className={cn("text-center font-black", isSmall ? "py-4 px-3 text-xl" : "py-6 px-5 text-3xl")}>{total.count}</td>
+          <td className={cn("text-center text-blue-400 font-black", isSmall ? "py-4 px-3 text-2xl" : "py-6 px-5 text-3xl")}>{total.performance}</td>
+          <td className={cn("text-center font-black", isSmall ? "py-4 px-3 text-2xl" : "py-6 px-5 text-3xl")}>{total.count}</td>
         </tr>
       </tbody>
     </table>
