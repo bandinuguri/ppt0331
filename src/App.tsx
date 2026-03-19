@@ -1,0 +1,1276 @@
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { 
+  Maximize, 
+  Minimize, 
+  ChevronRight, 
+  ChevronLeft, 
+  AlertTriangle, 
+  ShieldCheck, 
+  Info,
+  Plane,
+  Truck,
+  UserCheck,
+  ArrowRight,
+  ArrowLeft,
+  Activity,
+  Target,
+  ArrowLeftRight,
+  Move,
+  Pause,
+  User,
+  AlertCircle,
+  Phone,
+  Building2,
+  Users,
+  ArrowDown,
+  UserX,
+  EyeOff,
+  Clock,
+  Wind,
+  X,
+  Search,
+  Menu
+} from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { 
+  ComposedChart,
+  BarChart, 
+  Bar, 
+  Line,
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  Legend,
+  LabelList
+} from 'recharts';
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+import NewsHeadlines from './components/NewsHeadlines';
+import AccidentGallery from './components/AccidentGallery';
+
+function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
+// --- Data ---
+const occurrenceData = [
+  { year: '2020', accidents: 14, converted: 0.27, flights: 518518 },
+  { year: '2021', accidents: 17, converted: 0.30, flights: 566666 },
+  { year: '2022', accidents: 22, converted: 0.375, flights: 586666 },
+  { year: '2023', accidents: 29, converted: 0.455, flights: 637362 },
+  { year: '2024', accidents: 36, converted: 0.403, flights: 893300 },
+  { year: "'25*", accidents: 21, converted: 0.230, flights: 912744 },
+];
+
+const typeData = [
+  { name: '차량 충돌', value: 40, color: '#f59e0b' }, // Amber
+  { name: '항공기 접촉', value: 35, color: '#2563eb' }, // Blue
+  { name: '인적 상해', value: 25, color: '#dc2626' }, // Red
+];
+
+const majorCases2025 = [
+  {
+    title: "탑승교(PBB) 하단 충돌",
+    cause: "높이 제한 인지 부족 및 전방 주시 태만",
+    prevention: "높이 제한 표식 강화 및 서행 의무화"
+  },
+  {
+    title: "급유차 후진 중 날개 접촉",
+    cause: "유도자 미배치 및 사각지대 확인 소홀",
+    prevention: "후진 시 반드시 2인 1조 유도 절차 준수"
+  },
+  {
+    title: "로더 작업 중 작업자 낙상",
+    cause: "안전 고리 미체결 및 작업대 과적",
+    prevention: "추락 방지 장구 착용 상태 상시 점검"
+  }
+];
+
+// --- Components ---
+
+const PenaltyTable = ({ data }: { data: any[] }) => (
+  <div className="w-full bg-white rounded-[2.5rem] overflow-hidden shadow-2xl border border-neutral-100 h-full flex flex-col">
+    <table className="w-full flex-1 border-collapse table-fixed">
+      <thead>
+        <tr className="bg-neutral-900 text-white text-base uppercase tracking-wider">
+          <th className="py-6 px-4 text-center border-r border-white/10 w-[8%]">구분</th>
+          <th className="py-6 px-8 text-left border-r border-white/10 w-[52%]">위반사항</th>
+          <th className="py-6 px-2 text-center border-r border-white/10 w-[13.3%]">1차</th>
+          <th className="py-6 px-2 text-center border-r border-white/10 w-[13.3%]">2차</th>
+          <th className="py-6 px-2 text-center w-[13.3%]">3차</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((row, i) => (
+          <tr key={i} className="border-b border-neutral-100 hover:bg-neutral-50 transition-colors">
+            <td className="py-1 px-4 font-mono text-sm text-neutral-400 border-r border-neutral-100 text-center align-middle">{row.id}</td>
+            <td className="py-1 px-10 font-bold border-r border-neutral-100 leading-[1.1] text-[28px] align-middle text-neutral-900">
+              <div className="line-clamp-2 break-keep">{row.title}</div>
+            </td>
+            <td className="py-1 px-2 text-center border-r border-neutral-100 text-neutral-600 text-xs align-middle font-bold whitespace-pre-line">{row.c1 || row.first}</td>
+            <td className="py-1 px-2 text-center border-r border-neutral-100 text-neutral-600 text-xs align-middle font-bold whitespace-pre-line">{row.c2 || row.second}</td>
+            <td className="py-1 px-2 text-center text-neutral-600 text-xs align-middle font-bold whitespace-pre-line">{row.c3 || row.third}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+);
+
+const SectionHeader = ({ label, title, description }: { label: string, title: string, description?: string }) => (
+  <div className="mb-4">
+    <motion.span 
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="inline-block px-3 py-1 bg-black text-white text-[18px] font-mono uppercase tracking-widest mb-2"
+    >
+      {label}
+    </motion.span>
+    <motion.h1 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.1 }}
+      className="text-4xl md:text-6xl font-bold tracking-tighter leading-[0.9] mb-4"
+    >
+      {title}
+    </motion.h1>
+    {description && (
+      <motion.p 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="text-xl text-neutral-500 max-w-3xl leading-tight"
+      >
+        {description}
+      </motion.p>
+    )}
+  </div>
+);
+
+const WebSlide = ({ children, className, overflowHidden = true }: { children: React.ReactNode, className?: string, overflowHidden?: boolean }) => (
+  <div className={cn("web-slide h-full w-full flex flex-col p-8 md:p-12 bg-white text-black font-sans selection:bg-black selection:text-white", className)}>
+    <div className={cn("flex-1 flex flex-col", overflowHidden && "overflow-hidden")}>
+      {children}
+    </div>
+    <div className="mt-6 flex justify-between items-center text-[10px] font-mono uppercase tracking-widest border-t border-black/10 pt-4">
+      <div className="flex gap-8">
+        <span>MOLIT Safety Portal</span>
+        <span className="opacity-30">Ground Safety Education</span>
+      </div>
+      <div className="flex gap-4">
+        <span>2026 Edition</span>
+      </div>
+    </div>
+  </div>
+);
+
+const penaltyData1 = [
+  { id: "가", title: "사전 승인 없이 차량 운전/장비 사용", c1: "업무정지 10일", c2: "업무정지 20일", c3: "업무정지 40일" },
+  { id: "가-2", title: "거짓·부정한 방법으로 사전 승인", c1: "운전업무승인 취소", c2: "-", c3: "-" },
+  { id: "나", title: "승차정원·화물적재량 초과", first: "업무정지 1일", second: "업무정지 2일", third: "업무정지 4일" },
+  { id: "다-1", title: "제한속도 10km/h 미만 초과", c1: "운전업무정지 1일", c2: "운전업무정지 2일", c3: "운전업무정지 4일" },
+  { id: "다-2", title: "제한속도 10km/h 이상 초과", c1: "운전업무정지 2일", c2: "운전업무정지 4일", c3: "운전업무정지 8일" },
+  { id: "라", title: "주행 중 차량 추월", c1: "운전업무정지 2일", c2: "운전업무정지 4일", c3: "운전업무정지 8일" },
+  { id: "마", title: "이동 중 항공기 앞 가로지르기/주기 항공기 밑 운행", c1: "업무정지 5일", c2: "업무정지 7일", c3: "업무정지 15일" },
+  { id: "바", title: "지정 구역 외 주차·정차", c1: "운전업무정지 1일", c2: "운전업무정지 2일", c3: "운전업무정지 4일" },
+  { id: "사", title: "운행 중 전방 주시 불이행", c1: "운전업무정지 2일", c2: "운전업무정지 4일", c3: "운전업무정지 8일" },
+  { id: "아", title: "운행 중 휴대폰 사용", c1: "운전업무정지 2일", c2: "운전업무정지 4일", c3: "운전업무정지 8일" },
+];
+
+const penaltyData2 = [
+  { id: "자", title: "교통안전 시설·표지 훼손", c1: "업무정지 1일", c2: "업무정지 3일", c3: "업무정지 7일" },
+  { id: "차-1", title: "활주로·유도로 등에 장비·이물질 방치", c1: "업무정지 3일", c2: "업무정지 5일", c3: "업무정지 10일" },
+  { id: "차-2", title: "지정 구역 외 위험물 보관·저장", first: "업무정지 1일", second: "업무정지 3일", third: "업무정지 5일" },
+  { id: "카", title: "사고 발생 시 즉시 신고 불이행", c1: "업무정지 5일", c2: "업무정지 10일", c3: "업무정지 20일" },
+  { id: "타-1", title: "흡연·음주·환각제 (운전 외 업무)", c1: "업무정지 3일", c2: "업무정지 5일", c3: "업무정지 10일" },
+  { id: "타-2", title: "흡연·음주·환각제 (운전 업무)", c1: "운전업무승인 취소", c2: "-", c3: "-" },
+  { id: "파", title: "연료 유출 시 미신고·조치 불이행", c1: "업무정지 3일", c2: "업무정지 5일", c3: "업무정지 10일" },
+  { id: "하", title: "차량·장비 견인 규정 미준수", c1: "운전업무정지 1일", c2: "운전업무정지 2일", c3: "운전업무정지 4일" },
+  { id: "거", title: "통행방법 미준수", c1: "운전업무정지 1일", c2: "운전업무정지 2일", c3: "운전업무정지 4일" },
+];
+
+const airportData = [
+  { name: "인천", y20: 9, y21: 7, y22: 7, y23: 12, y24: 12, y25: 12, total: 59 },
+  { name: "김포", y20: 3, y21: 4, y22: 12, y23: 8, y24: 4, y25: 3, total: 34 },
+  { name: "김해", y20: 1, y21: 1, y22: 1, y23: 2, y24: 10, y25: 2, total: 17 },
+  { name: "제주", y20: 0, y21: 3, y22: 1, y23: 4, y24: 5, y25: 1, total: 14 },
+  { name: "청주", y20: 0, y21: 1, y22: 0, y23: 2, y24: 1, y25: 2, total: 6 },
+  { name: "대구", y20: 0, y21: 0, y22: 0, y23: 1, y24: 3, y25: 0, total: 4 },
+  { name: "광주", y20: 1, y21: 1, y22: 0, y23: 0, y24: 1, y25: 0, total: 3 },
+  { name: "양양", y20: 0, y21: 0, y22: 1, y23: 0, y24: 0, y25: 0, total: 1 },
+  { name: "울산", y20: 0, y21: 0, y22: 0, y23: 0, y24: 0, y25: 1, total: 1 },
+];
+
+const annualTotals = {
+  y20: 14, y21: 17, y22: 22, y23: 29, y24: 36, y25: 21, total: 139
+};
+
+const totalGoalData = [
+  { category: "항공기간 접촉", goal: "0", performance: "0", count: "0" },
+  { category: "항공기-장비·차량과 접촉", goal: "0.004", performance: "0", count: "0" },
+  { category: "항공기-장비·차량과 접촉", goal: "0.036", performance: "0", count: "0" },
+  { category: "차량·차량·장비·시설간 접촉", goal: "0.248", performance: "0.175", percent: "70.6%", count: "16" },
+  { category: "조업자 상해", goal: "0.064", performance: "0.055", percent: "85.9%", count: "5" },
+];
+
+const kacGoalData = [
+  { category: "항공기간 접촉", goal: "0", performance: "0", count: "0" },
+  { category: "항공기-장비·차량과 접촉", goal: "0", performance: "0", count: "0" },
+  { category: "항공기-장비·차량과 접촉", goal: "0", performance: "0", count: "0" },
+  { category: "차량·차량·장비·시설간 접촉", goal: "0.291", performance: "0.164", percent: "56.4%", count: "8" },
+  { category: "조업자 상해", goal: "0.027", performance: "0.021", percent: "77.8%", count: "1" },
+];
+
+const iiacGoalData = [
+  { category: "항공기간 접촉", goal: "0", performance: "0", count: "0" },
+  { category: "항공기-장비·차량과 접촉", goal: "0.008", performance: "0", count: "0" },
+  { category: "항공기-장비·차량과 접촉", goal: "0.068", performance: "0", count: "0" },
+  { category: "차량·차량·장비·시설간 접촉", goal: "0.179", performance: "0.188", percent: "105.0%", count: "8", warning: true },
+  { category: "조업자 상해", goal: "0.139", performance: "0.094", percent: "67.6%", count: "4" },
+];
+
+const GoalTable = ({ title, flights, data, total, isSmall = false }: { title: string, flights: string, data: any[], total: any, isSmall?: boolean }) => (
+  <div className={cn("bg-white rounded-[2rem] overflow-hidden border border-neutral-100 shadow-xl flex flex-col", isSmall ? "p-6" : "p-8")}>
+    <div className="flex items-center justify-between mb-6">
+      <h3 className={cn("font-bold flex items-center gap-3", isSmall ? "text-xl" : "text-3xl")}>
+        <div className={cn("bg-blue-600 rounded-full", isSmall ? "w-1.5 h-6" : "w-2 h-8")} />
+        {title}
+      </h3>
+      <span className={cn("font-mono text-neutral-400 font-bold", isSmall ? "text-xs" : "text-lg")}>운항횟수: {flights}</span>
+    </div>
+    <table className={cn("w-full border-collapse", isSmall ? "text-sm" : "text-xl")}>
+      <thead>
+        <tr className="bg-neutral-50 text-neutral-500 font-bold border-b border-neutral-100">
+          <th className={cn("text-left", isSmall ? "py-3 px-3" : "py-5 px-5")}>세부지표</th>
+          <th className={cn("text-center text-orange-600", isSmall ? "py-3 px-3" : "py-5 px-5")}>안전목표</th>
+          <th className={cn("text-center text-orange-600", isSmall ? "py-3 px-3" : "py-5 px-5")}>실적</th>
+          <th className={cn("text-center text-orange-600", isSmall ? "py-3 px-3" : "py-5 px-5")}>사고건수</th>
+        </tr>
+      </thead>
+      <tbody className="divide-y divide-neutral-50">
+        {data.map((row, i) => (
+          <tr key={i} className="hover:bg-neutral-50/50 transition-colors">
+            <td className={cn("font-bold text-neutral-800", isSmall ? "py-3 px-3" : "py-5 px-5")}>{row.category}</td>
+            <td className={cn("text-center text-neutral-400 font-mono", isSmall ? "py-3 px-3" : "py-5 px-5")}>{row.goal}</td>
+            <td className={cn("text-center font-black", isSmall ? "py-3 px-3" : "py-5 px-5", row.warning ? "bg-red-50 text-red-600" : "text-neutral-700")}>
+              {row.performance} {row.percent && <span className="text-[0.7em] font-normal opacity-60 ml-1">({row.percent})</span>}
+            </td>
+            <td className={cn("text-center font-black text-neutral-900", isSmall ? "py-3 px-3" : "py-5 px-5")}>{row.count}</td>
+          </tr>
+        ))}
+        <tr className="bg-neutral-900 text-white font-bold">
+          <td className={cn(isSmall ? "py-4 px-3" : "py-6 px-5")}>{total.label}</td>
+          <td className={cn("text-center opacity-30", isSmall ? "py-4 px-3" : "py-6 px-5")}>-</td>
+          <td className={cn("text-center text-blue-400 font-black", isSmall ? "py-4 px-3 text-xl" : "py-6 px-5 text-3xl")}>{total.performance}</td>
+          <td className={cn("text-center font-black", isSmall ? "py-4 px-3 text-xl" : "py-6 px-5 text-3xl")}>{total.count}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+);
+
+const AirportTable = () => (
+  <div className="w-full bg-white rounded-[2.5rem] overflow-hidden shadow-2xl border border-neutral-100 h-full flex flex-col">
+    <table className="w-full border-collapse text-xl flex-1">
+      <thead>
+        <tr className="bg-neutral-900 text-white">
+          <th className="py-6 px-4 text-center border-r border-white/10">구분</th>
+          <th className="py-6 px-2 text-center border-r border-white/10">20년</th>
+          <th className="py-6 px-2 text-center border-r border-white/10">21년</th>
+          <th className="py-6 px-2 text-center border-r border-white/10">22년</th>
+          <th className="py-6 px-2 text-center border-r border-white/10">23년</th>
+          <th className="py-6 px-2 text-center border-r border-white/10">24년</th>
+          <th className="py-6 px-2 text-center border-r border-white/10">'25년</th>
+          <th className="py-6 px-4 text-center bg-blue-600">합계</th>
+        </tr>
+      </thead>
+      <tbody className="divide-y divide-neutral-100">
+        {airportData.map((row, i) => (
+          <tr key={i} className="hover:bg-neutral-50 transition-colors">
+            <td className="py-4 px-4 text-center font-bold border-r border-neutral-100">{row.name}</td>
+            <td className="py-4 px-2 text-center border-r border-neutral-100">{row.y20 || "-"}</td>
+            <td className="py-4 px-2 text-center border-r border-neutral-100">{row.y21 || "-"}</td>
+            <td className="py-4 px-2 text-center border-r border-neutral-100">{row.y22 || "-"}</td>
+            <td className="py-4 px-2 text-center border-r border-neutral-100">{row.y23 || "-"}</td>
+            <td className="py-4 px-2 text-center border-r border-neutral-100">{row.y24 || "-"}</td>
+            <td className="py-4 px-2 text-center border-r border-neutral-100">{row.y25 || "-"}</td>
+            <td className="py-4 px-4 text-center font-bold text-blue-600 bg-blue-50/30">{row.total}</td>
+          </tr>
+        ))}
+        <tr className="bg-neutral-100 font-bold text-2xl">
+          <td className="py-6 px-4 text-center border-r border-white">합계</td>
+          <td className="py-6 px-2 text-center border-r border-white">{annualTotals.y20}</td>
+          <td className="py-6 px-2 text-center border-r border-white">{annualTotals.y21}</td>
+          <td className="py-6 px-2 text-center border-r border-white">{annualTotals.y22}</td>
+          <td className="py-6 px-2 text-center border-r border-white">{annualTotals.y23}</td>
+          <td className="py-6 px-2 text-center border-r border-white">{annualTotals.y24}</td>
+          <td className="py-6 px-2 text-center border-r border-white">{annualTotals.y25}</td>
+          <td className="py-6 px-4 text-center text-white bg-blue-700">{annualTotals.total}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+);
+
+export default function App() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [selectedWord, setSelectedWord] = useState<{ text: string, content: string, airport?: string, date?: string, cause?: string } | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const totalSlides = 15;
+
+  const nextSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev + 1) % totalSlides);
+  }, []);
+
+  const prevSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
+  }, []);
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      containerRef.current?.requestFullscreen();
+      setIsFullscreen(true);
+    } else {
+      document.exitFullscreen();
+      setIsFullscreen(false);
+    }
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+      if (e.key === 'ArrowLeft') prevSlide();
+      if (e.key === 'f') toggleFullscreen();
+    };
+
+    const handleContextMenu = (e: MouseEvent) => {
+      e.preventDefault();
+      prevSlide();
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('contextmenu', handleContextMenu);
+    
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('contextmenu', handleContextMenu);
+    };
+  }, [nextSlide, prevSlide]);
+
+  const slides = [
+    // Slide 1: Hero / Title
+    <WebSlide>
+      <div className="h-full flex flex-col justify-center">
+        <div className="mb-4">
+          <span className="text-sm font-mono uppercase tracking-widest opacity-40">Introduction</span>
+        </div>
+        <h1 className="text-8xl font-black tracking-tighter leading-none mb-12">
+          지상조업 <br />
+          <span className="text-blue-600">안전사고예방</span> <br />
+          간담회
+        </h1>
+        <motion.div 
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.3 }}
+          className="flex gap-12 mt-12"
+        >
+          <div className="flex flex-col">
+            <span className="text-[10px] font-mono uppercase opacity-40 mb-2">Department</span>
+            <span className="text-xl font-medium">국토교통부 공항운영과</span>
+          </div>
+          <div className="flex flex-col">
+            <span className="text-[10px] font-mono uppercase opacity-40 mb-2">DATE</span>
+            <span className="text-xl font-medium">2026.3.31.(화)</span>
+          </div>
+          <div className="flex flex-col">
+            <span className="text-[10px] font-mono uppercase opacity-40 mb-2">PLACE</span>
+            <span className="text-xl font-medium">한국공항공사 6층 컨퍼런스룸</span>
+          </div>
+        </motion.div>
+      </div>
+    </WebSlide>,
+
+    // Slide 1-1: 첨부1 - 교육 및 간담회 개최 계획
+    <WebSlide>
+      <div className="h-full flex flex-col justify-center">
+        <SectionHeader 
+          label="Attachment 1" 
+          title="지상조업 안전사고 예방 간담회 개요" 
+        />
+        <div className="mt-4 space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-8 bg-blue-50 rounded-[2.5rem] border border-blue-100 shadow-sm">
+              <h3 className="text-3xl font-bold mb-4 flex items-center gap-3">
+                <div className="w-3 h-3 rounded-full bg-blue-600" />
+                배경
+              </h3>
+              <p className="text-2xl text-neutral-700 leading-relaxed">
+                지상조업 안전강화를 위해 종사자와 <span className="font-bold text-blue-700">소통형 교육</span>을 강화하고 작업환경, 처우개선 등 동기부여를 통한 <span className="font-bold text-blue-700">자발적 안전문화 확산</span> 필요
+              </p>
+            </div>
+            <div className="p-8 bg-neutral-50 rounded-[2.5rem] border border-neutral-200 shadow-sm">
+              <h3 className="text-3xl font-bold mb-4 flex items-center gap-3">
+                <div className="w-3 h-3 rounded-full bg-neutral-600" />
+                주요내용
+              </h3>
+              <p className="text-2xl text-neutral-700 leading-relaxed">
+                공항내 지상조업 안전사고 예방 교육, 장비·시설 개선 등 안전을 위한 <span className="font-bold">작업 환경 및 근로자 처우 개선 과제 발굴</span> 등
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-4">
+            <h3 className="text-3xl font-bold mb-4 flex items-center gap-4">
+              <Clock className="text-blue-600" size={32} />
+              세부일정
+            </h3>
+            <div className="overflow-hidden rounded-[2rem] border border-neutral-200 shadow-md bg-white">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-neutral-900 text-white">
+                    <th className="p-3 px-6 text-[20px] font-bold">구분</th>
+                    <th className="p-3 px-6 text-[20px] font-bold">내용</th>
+                    <th className="p-3 px-6 text-[20px] font-bold">비고</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-neutral-100">
+                  {[
+                    { time: "14:00 ~ 14:05 (5')", content: "인사 말씀", note: "공항정책관" },
+                    { time: "14:05 ~ 14:15 (10')", content: "'25년 지상조업 사고현황 및 사례 교육", note: "" },
+                    { time: "14:15 ~ 14:35 (20')", content: "양 공항공사 사고현황 및 사고예방 계획", note: "" },
+                    { time: "14:35 ~ 14:55 (20')", content: "지상조업 사고 예방 제안사항 검토", note: "" },
+                    { time: "14:55 ~ 15:15 (20')", content: "종사자 근로환경 개선 제안사항 검토", note: "" },
+                    { time: "15:15 ~ 15:30 (15')", content: "마무리 말씀", note: "공항운영과장" },
+                  ].map((row, i) => (
+                    <tr key={i} className="hover:bg-blue-50/30 transition-colors">
+                      <td className="p-3 px-6 font-mono text-[16px] text-neutral-500">{row.time}</td>
+                      <td className="p-3 px-6 text-[24px] font-semibold text-neutral-900">{row.content}</td>
+                      <td className="p-3 px-6 text-[16px] text-neutral-500 font-medium">{row.note}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </WebSlide>,
+
+    // Slide 1-2: 첨부2 - 추진체계
+    <WebSlide>
+      <div className="h-full flex flex-col justify-center">
+        <SectionHeader 
+          label="Attachment 2" 
+          title="추진체계" 
+        />
+        <div className="mt-6 flex flex-col gap-4">
+        <div className="flex gap-6 p-6 bg-white border border-neutral-200 rounded-[2.5rem] shadow-md hover:shadow-xl transition-all hover:-translate-y-1">
+          <div className="w-24 h-24 bg-blue-600 rounded-3xl flex items-center justify-center text-white shrink-0 shadow-lg shadow-blue-100">
+            <Building2 size={48} />
+          </div>
+          <div className="flex flex-col justify-center space-y-2">
+            <h3 className="text-3xl font-black text-blue-600">국토교통부</h3>
+            <ul className="space-y-1 text-2xl text-neutral-700 font-medium leading-tight">
+              <li className="flex items-start gap-4">
+                <ChevronRight className="mt-1.5 shrink-0 text-blue-500" size={24} />
+                간담회 개최, 지상조업사고 통계·교육자료 작성
+              </li>
+              <li className="flex items-start gap-4">
+                <ChevronRight className="mt-1.5 shrink-0 text-blue-500" size={24} />
+                지상조업 사고 예방, 근로환경 개선 아이디어 발굴 및 이행여부 점검
+              </li>
+            </ul>
+            <div className="p-3 bg-amber-50 rounded-2xl border border-amber-200 text-lg text-amber-900 font-semibold italic">
+              * 개선 아이디어는 웹설문 조사 실시(설문 생성 후 URL을 생성하여 공항공사 전달 → 공항공사에서 항공사·지상조업사 및 근로자에게 SMS로 전파(참여자 20명 커피쿠폰 제공 예정)
+            </div>
+          </div>
+        </div>
+
+        <div className="flex gap-6 p-6 bg-white border border-neutral-200 rounded-[2.5rem] shadow-md hover:shadow-xl transition-all hover:-translate-y-1">
+          <div className="w-24 h-24 bg-neutral-800 rounded-3xl flex items-center justify-center text-white shrink-0 shadow-lg shadow-neutral-100">
+            <Users size={48} />
+          </div>
+          <div className="flex flex-col justify-center space-y-2">
+            <h3 className="text-3xl font-black text-neutral-800">공항 공사</h3>
+            <ul className="space-y-1 text-2xl text-neutral-700 font-medium leading-tight">
+              <li className="flex items-start gap-4">
+                <ChevronRight className="mt-1.5 shrink-0 text-neutral-500" size={24} />
+                항공사, 지상조업사 간담회 참석 및 개선 아이디어 제출 협조 요청
+              </li>
+              <li className="flex items-start gap-4">
+                <ChevronRight className="mt-1.5 shrink-0 text-neutral-500" size={24} />
+                공항공사별 사고현황 및 사고예방 계획 발표
+              </li>
+              <li className="flex items-start gap-4">
+                <ChevronRight className="mt-1.5 shrink-0 text-neutral-500" size={24} />
+                사고예방 및 근로환경 개선 아이디어 검토
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="flex gap-6 p-6 bg-white border border-neutral-200 rounded-[2.5rem] shadow-md hover:shadow-xl transition-all hover:-translate-y-1">
+          <div className="w-24 h-24 bg-emerald-600 rounded-3xl flex items-center justify-center text-white shrink-0 shadow-lg shadow-emerald-100">
+            <Truck size={48} />
+          </div>
+          <div className="flex flex-col justify-center space-y-2">
+            <h3 className="text-3xl font-black text-emerald-600">지상조업사</h3>
+            <ul className="space-y-1 text-2xl text-neutral-700 font-medium leading-tight">
+              <li className="flex items-start gap-4">
+                <ChevronRight className="mt-1.5 shrink-0 text-emerald-500" size={24} />
+                지상조업 근로자 교육, 안전 장비 확충, 근로환경 및 처우 개선 등
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </WebSlide>,
+
+    // Slide 2: 지상안전사고란?
+    <WebSlide overflowHidden={false}>
+      <SectionHeader 
+        label="01. Definition" 
+        title="지상안전사고란?" 
+      />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div className="space-y-8">
+          <div className="p-8 bg-blue-50 border-l-4 border-blue-600 rounded-r-2xl">
+            <h3 className="text-2xl font-bold mb-4">정의</h3>
+            <p className="text-2xl text-neutral-800 leading-relaxed">
+              "지상안전사고"란 공항 보호구역에서 사람, 시설, 차량 및 장비 등으로 인하여 <span className="font-bold text-black text-[1.1em]">인명피해가 발생하거나</span> <span className="font-bold text-black text-[1.1em]">항공기,</span> <span className="font-bold text-black text-[1.1em]">시설, 차량등에 물적피해가 발생한 것</span>을 말한다. 다만, 항공기 운항과 관련된 사고는 제외한다.
+            </p>
+          </div>
+          <div className="p-8 bg-neutral-50 border-l-4 border-neutral-400 rounded-r-2xl">
+            <h3 className="text-2xl font-bold mb-4">법적 근거</h3>
+            <ul className="space-y-2 text-lg text-neutral-600">
+              <li>• 공항시설법 제31조의2, 제31조의3</li>
+              <li>• 공항안전운영기준(국토교통부 고시)</li>
+            </ul>
+          </div>
+        </div>
+        <div className="flex items-center justify-center bg-neutral-900 rounded-3xl p-12 text-white">
+          <div className="text-center">
+            <AlertTriangle size={80} className="mx-auto mb-6 text-amber-500" />
+            <p className="text-3xl font-bold mb-4">안전은 선택이 아닌 필수</p>
+            <p className="text-xl opacity-60">모든 사고는 예방 가능합니다.</p>
+          </div>
+        </div>
+      <div className="mt-8 relative -mx-8 md:-mx-12 w-[calc(100%+4rem)] md:w-[calc(100%+6rem)]">
+        <img src="/images/con-04.jpg" alt="Ground Safety Accident Definition" className="w-full h-auto shadow-lg" referrerPolicy="no-referrer" />
+      </div>
+      </div>
+    </WebSlide>,
+
+    // Slide 3: 사고 유형
+    <WebSlide>
+      <SectionHeader 
+        label="02. Accident Types" 
+        title="지상안전사고 유형" 
+      />
+      <div className="mt-8 w-full">
+        <img src="/images/con-03.jpg" alt="Ground Safety Accident Types" className="w-full h-auto rounded-2xl shadow-lg" referrerPolicy="no-referrer" />
+      </div>
+    </WebSlide>,
+
+    // Slide 4: 지상안전사고 신고
+    <WebSlide>
+      <SectionHeader 
+        label="03. Reporting" 
+        title="지상안전사고 신고" 
+      />
+      <div className="mt-8">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-4 items-center">
+          {/* Step 1: 발생 */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex-1 bg-white border border-neutral-200 p-6 rounded-3xl shadow-sm relative z-10 w-full flex flex-col justify-center"
+          >
+            <div className="w-12 h-12 bg-red-50 text-red-600 rounded-xl flex items-center justify-center mb-6">
+              <AlertTriangle size={24} />
+            </div>
+            <div className="text-[10px] font-mono text-red-600 font-bold mb-2 uppercase tracking-widest">Step 01</div>
+            <h3 className="text-2xl font-bold text-neutral-900 leading-tight">지상안전사고<br/>발생</h3>
+          </motion.div>
+
+          <ArrowRight className="hidden lg:block text-blue-600 shrink-0" size={32} />
+          <ArrowDown className="lg:hidden text-blue-600 my-4" size={24} />
+          
+          {/* Step 2: 신고 */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="flex-1 bg-white border border-neutral-200 p-6 rounded-3xl shadow-sm relative z-10 w-full flex flex-col justify-center"
+          >
+            <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-6">
+              <Phone size={24} />
+            </div>
+            <div className="text-[10px] font-mono text-blue-600 font-bold mb-2 uppercase tracking-widest">Step 02</div>
+            <h3 className="text-2xl font-bold text-neutral-900 leading-tight mb-2">즉시 신고</h3>
+            <p className="text-base text-neutral-500 leading-snug">
+              사고 당사자, 소속 조업사<br/>또는 목격자
+            </p>
+          </motion.div>
+
+          <ArrowRight className="hidden lg:block text-blue-600 shrink-0" size={32} />
+          <ArrowDown className="lg:hidden text-blue-600 my-4" size={24} />
+
+          {/* Step 3: 보고 (공항/지방청) */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="flex-1 bg-white border border-neutral-200 p-10 rounded-[2.5rem] shadow-sm relative z-10 w-full flex flex-col justify-center"
+          >
+            <div className="w-16 h-16 bg-neutral-50 text-neutral-600 rounded-2xl flex items-center justify-center mb-8">
+              <Building2 size={32} />
+            </div>
+            <div className="text-sm font-mono text-neutral-400 font-bold mb-3 uppercase tracking-widest">Step 03</div>
+            <h3 className="text-3xl font-bold text-neutral-900 leading-tight mb-4">즉시 보고</h3>
+            <p className="text-lg text-neutral-500 leading-snug">
+              공항운영자 및<br/>지방항공청
+            </p>
+          </motion.div>
+
+          <ArrowRight className="hidden lg:block text-blue-600 shrink-0" size={48} />
+          <ArrowDown className="lg:hidden text-blue-600 my-4" size={32} />
+
+          {/* Step 4: 최종 보고 */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="flex-1 bg-blue-600 p-10 rounded-[2.5rem] shadow-xl relative z-10 text-white w-full flex flex-col justify-center"
+          >
+            <div className="w-16 h-16 bg-white/20 text-white rounded-2xl flex items-center justify-center mb-8">
+              <Target size={32} />
+            </div>
+            <div className="text-sm font-mono text-white/60 font-bold mb-3 uppercase tracking-widest">Final Step</div>
+            <h3 className="text-3xl font-bold leading-tight mb-4">국토교통부<br/>공항운영과</h3>
+            <p className="text-lg text-white/60 leading-snug">
+              최종 보고 및<br/>후속 조치 시행
+            </p>
+          </motion.div>
+        </div>
+      </div>
+
+      <div className="mt-16 p-6 bg-red-50 border border-red-100 rounded-2xl flex items-center gap-4">
+        <Info className="text-red-600" />
+        <p className="text-lg font-medium text-red-900">
+          허위 보고 또는 보고 누락 시 관련 법령에 따라 엄중한 처벌을 받을 수 있습니다.
+        </p>
+      </div>
+    </WebSlide>,
+
+    // Slide 5: 행정처분 기준
+    <WebSlide>
+      <SectionHeader 
+        label="04. Penalties" 
+        title="지상안전사고 행정처분 기준" 
+      />
+      <div className="grid grid-cols-2 gap-10 mt-20 h-[calc(100%-200px)]">
+        <PenaltyTable data={penaltyData1} />
+        <PenaltyTable data={penaltyData2} />
+      </div>
+    </WebSlide>,
+
+    // Slide 6: 사고 발생 현황 (차트)
+    <WebSlide>
+      <SectionHeader 
+        label="05. Statistics" 
+        title="지상안전사고 발생 현황" 
+      />
+      
+      <div className="flex flex-col h-full mt-20">
+        {/* Legend */}
+        <div className="flex justify-center gap-8 mb-12 text-sm font-bold">
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 rounded-sm bg-[#f1f5f9] border border-neutral-200" />
+            <span>운항횟수</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 rounded-full bg-[#ef4444]" />
+            <span>발생건수</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 rounded-full bg-[#f97316]" />
+            <span>환산건수 <span className="text-neutral-400 font-normal">(운항 1만건당)</span></span>
+          </div>
+        </div>
+
+        {/* Chart */}
+        <div className="h-[340px] w-full bg-white rounded-3xl p-4">
+          <ResponsiveContainer width="100%" height="100%">
+            <ComposedChart data={occurrenceData} margin={{ top: 40, right: 30, left: 20, bottom: 20 }}>
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+              <XAxis 
+                dataKey="year" 
+                axisLine={false} 
+                tickLine={false} 
+                tick={{ fill: '#64748b', fontSize: 16, fontWeight: 700 }}
+                dy={15}
+              />
+              <YAxis yAxisId="left" hide />
+              <YAxis yAxisId="right-acc" hide domain={[0, 60]} />
+              <YAxis yAxisId="right-conv" hide domain={[0, 4]} />
+              <Tooltip 
+                cursor={{ fill: '#f8fafc' }}
+                contentStyle={{ borderRadius: '1rem', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
+              />
+              
+              {/* Flights Bar */}
+              <Bar 
+                yAxisId="left"
+                dataKey="flights" 
+                radius={[8, 8, 0, 0]} 
+                barSize={70} 
+              >
+                {occurrenceData.map((entry, index) => (
+                  <Cell 
+                    key={`cell-${index}`} 
+                    fill={entry.year === "'25*" ? '#fee2e2' : '#f1f5f9'} 
+                  />
+                ))}
+                <LabelList 
+                  dataKey="flights" 
+                  position="top" 
+                  fill="#94a3b8" 
+                  fontSize={12} 
+                  fontWeight={500}
+                  formatter={(value: number) => value.toLocaleString()} 
+                  offset={10}
+                />
+              </Bar>
+              
+              {/* Accidents Line */}
+              <Line 
+                yAxisId="right-acc"
+                type="monotone" 
+                dataKey="accidents" 
+                stroke="#ef4444" 
+                strokeWidth={4} 
+                dot={{ r: 8, fill: '#ef4444', strokeWidth: 3, stroke: '#fff' }}
+                label={{ 
+                  position: 'top', 
+                  fill: '#ef4444', 
+                  fontSize: 20, 
+                  fontWeight: 800, 
+                  offset: 15,
+                  formatter: (value: number) => value
+                }}
+              />
+              
+              {/* Converted Line */}
+              <Line 
+                yAxisId="right-conv"
+                type="monotone" 
+                dataKey="converted" 
+                stroke="#f97316" 
+                strokeWidth={3} 
+                dot={{ r: 6, fill: '#f97316', strokeWidth: 2, stroke: '#fff' }}
+                label={{ 
+                  position: 'top', 
+                  fill: '#f97316', 
+                  fontSize: 16, 
+                  fontWeight: 700, 
+                  offset: 15,
+                  formatter: (value: number) => value.toFixed(3).replace(/\.?0+$/, '')
+                }}
+              />
+            </ComposedChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Summary Cards Section */}
+        <div className="mt-8">
+          <h3 className="text-xl font-bold mb-6 text-neutral-800">최근 3개년 사고 추이</h3>
+          <div className="grid grid-cols-3 gap-8">
+            {[
+              { year: '2023년', count: '29건', rate: '0.455', active: false },
+              { year: '2024년', count: '36건', rate: '0.403', active: false },
+              { year: "'25*년", count: '21건', rate: '0.230', active: true },
+            ].map((item, i) => (
+              <div 
+                key={i} 
+                className={cn(
+                  "p-8 rounded-[2rem] border flex flex-col items-center justify-center text-center transition-all",
+                  item.active 
+                    ? "bg-[#fff1f2] border-[#ffe4e6] shadow-sm" 
+                    : "bg-[#f8fafc] border-[#f1f5f9] shadow-none"
+                )}
+              >
+                <span className={cn("text-lg font-bold mb-3", item.active ? "text-[#f43f5e]" : "text-[#94a3b8]")}>
+                  {item.year}
+                </span>
+                <span className={cn("text-4xl font-black mb-2", item.active ? "text-[#e11d48]" : "text-[#1e293b]")}>
+                  {item.count}
+                </span>
+                <span className={cn("text-lg font-bold", item.active ? "text-[#fb7185]" : "text-[#f97316]")}>
+                  {item.rate}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </WebSlide>,
+
+    // Slide 7: 공항별 사고 발생 현황
+    <WebSlide>
+      <SectionHeader 
+        label="06. Airport Statistics" 
+        title="공항별 사고 발생 현황" 
+      />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-20 h-[calc(100%-180px)]">
+        <AirportTable />
+        <div className="flex flex-col h-full">
+          <div className="flex-1 bg-white p-10 rounded-[2.5rem] border border-neutral-100 shadow-2xl">
+            <h3 className="text-2xl font-bold mb-8 flex items-center gap-3">
+              <div className="w-1.5 h-8 bg-blue-600 rounded-full" />
+              공항별 누적 사고 발생 비중 (20~25년)
+            </h3>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={airportData.sort((a, b) => b.total - a.total).slice(0, 5)} margin={{ top: 20, right: 30, left: 20, bottom: 40 }}>
+                <defs>
+                  <linearGradient id="airportBarGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#3b82f6" stopOpacity={1}/>
+                    <stop offset="100%" stopColor="#1d4ed8" stopOpacity={1}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                <XAxis 
+                  dataKey="name" 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{ fill: '#64748b', fontSize: 18, fontWeight: 700 }}
+                  dy={15}
+                />
+                <YAxis 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{ fill: '#94a3b8', fontSize: 14 }}
+                />
+                <Tooltip 
+                  cursor={{ fill: '#f8fafc' }}
+                  contentStyle={{ borderRadius: '1.5rem', border: 'none', boxShadow: '0 25px 50px -12px rgb(0 0 0 / 0.25)' }}
+                />
+                <Bar dataKey="total" fill="url(#airportBarGradient)" radius={[12, 12, 0, 0]} barSize={60}>
+                  <LabelList dataKey="total" position="top" fill="#1e40af" fontSize={20} fontWeight={800} offset={15} />
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      </div>
+    </WebSlide>,
+
+    // Slide 8: 예방 목표 달성 현황 (전국 공항)
+    <WebSlide>
+      <SectionHeader 
+        label="07. Goals" 
+        title="'25년 지상안전사고 예방 목표 달성 현황" 
+      />
+      <div className="flex flex-col items-center justify-center h-[calc(100%-160px)]">
+        <div className="w-full max-w-6xl">
+          <GoalTable 
+            title="전국 공항" 
+            flights="912,744" 
+            data={totalGoalData} 
+            total={{ label: "전국 합계", performance: "0.230", count: "21" }} 
+          />
+        </div>
+      </div>
+    </WebSlide>,
+
+    // Slide 9: 예방 목표 달성 현황 (공사별)
+    <WebSlide>
+      <SectionHeader 
+        label="08. Goals" 
+        title="'25년 지상안전사고 예방 목표 달성 현황" 
+      />
+      <div className="flex flex-col items-center justify-center h-[calc(100%-160px)]">
+        <div className="grid grid-cols-2 gap-8 w-full">
+          <GoalTable 
+            title="한국공항공사" 
+            flights="486,984" 
+            data={kacGoalData} 
+            total={{ label: "소계", performance: "0.185", count: "9" }}
+            isSmall={true}
+          />
+          <GoalTable 
+            title="인천공항공사" 
+            flights="425,760" 
+            data={iiacGoalData} 
+            total={{ label: "소계", performance: "0.282", count: "12" }}
+            isSmall={true}
+          />
+        </div>
+      </div>
+    </WebSlide>,
+
+    // Slide 11: 주요 사고 원인
+    <WebSlide>
+      <SectionHeader 
+        label="10. Causes" 
+        title="주요 사고 원인" 
+      />
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-8 h-[calc(100%-140px)]">
+        {/* 강조: 운전자 부주의 (Left Hero Section) */}
+        <div className="lg:col-span-7 relative group overflow-hidden bg-neutral-900 rounded-[2.5rem] shadow-2xl flex flex-col border border-white/5">
+          {/* Background Accent */}
+          <div className="absolute top-0 right-0 w-80 h-80 bg-blue-600/20 blur-[100px] rounded-full -mr-40 -mt-40" />
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-900/30 blur-[80px] rounded-full -ml-32 -mb-32" />
+          
+          <div className="relative z-10 p-10 flex flex-col h-full">
+            <div className="flex items-start justify-between mb-6">
+              <div className="flex items-center gap-5">
+                <div className="w-20 h-20 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-600/20">
+                  <UserX size={48} className="text-white" />
+                </div>
+                <div>
+                  <h3 className="text-4xl font-black mb-1 text-white tracking-tighter">운전자 부주의</h3>
+                  <div className="flex items-center gap-3">
+                    <span className="px-2 py-0.5 bg-blue-600 text-white text-xs font-bold rounded-md uppercase tracking-widest">Critical Factor</span>
+                    <p className="text-lg text-blue-400 font-medium italic">집중력 저하 및 안일함</p>
+                  </div>
+                </div>
+              </div>
+              <div className="text-right">
+                <span className="text-7xl font-black text-blue-600 leading-none">85<span className="text-3xl">%</span></span>
+                <p className="text-[10px] font-mono uppercase tracking-widest text-neutral-500 mt-1">Human Error Rate</p>
+              </div>
+            </div>
+
+            <div className="flex-1 flex flex-col justify-center">
+              <p className="text-[32px] leading-[3] text-neutral-200 font-medium mb-4 tracking-tight">
+                지상안전사고의 대부분은 <span className="text-white font-bold border-b-4 border-blue-600 pb-1">인적 요인</span>에 의해 발생하며,<br />
+                특히 <span className="text-blue-400 font-bold">운전자 및 작업자의 부주의</span>가<br />
+                사고의 결정적인 원인이 되고 있습니다.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-6">
+              <div className="bg-white/5 backdrop-blur-md p-6 rounded-3xl border border-white/10 hover:bg-white/10 transition-all">
+                <div className="flex items-center gap-4 mb-3">
+                  <div className="w-10 h-10 bg-blue-600/20 rounded-xl flex items-center justify-center">
+                    <EyeOff size={24} className="text-blue-400" />
+                  </div>
+                  <h4 className="font-bold text-2xl text-white">전방 주시 태만</h4>
+                </div>
+                <p className="text-lg text-neutral-400 leading-relaxed">이동 중 주변 상황 확인 소홀 및<br />스마트폰 사용 등 집중력 분산</p>
+              </div>
+              <div className="bg-white/5 backdrop-blur-md p-6 rounded-3xl border border-white/10 hover:bg-white/10 transition-all">
+                <div className="flex items-center gap-4 mb-3">
+                  <div className="w-10 h-10 bg-blue-600/20 rounded-xl flex items-center justify-center">
+                    <Activity size={24} className="text-blue-400" />
+                  </div>
+                  <h4 className="font-bold text-2xl text-white">운전 미숙</h4>
+                </div>
+                <p className="text-lg text-neutral-400 leading-relaxed">익숙한 작업 환경에서의 긴장감 완화 및<br />기본 조작 절차 누락</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 기타 요인들 (Right Section) */}
+        <div className="lg:col-span-5 flex flex-col gap-3">
+          {[
+            { title: "사주경계 미흡", desc: "출발 전 주변 확인 소홀, 교차로/유도로 진입 전 일단정지 규정 미준수", color: "bg-amber-500", icon: <Move className="text-amber-500" /> },
+            { title: "안전 수칙 미준수", desc: "통과 높이 제한 무시, 안전거리 미확보, 유도자 없이 후진 접현 시도", color: "bg-red-500", icon: <ShieldCheck className="text-red-500" /> },
+            { title: "조급한 작업 수행", desc: "항공기 지연 및 스케줄 압박으로 인한 무리한 조업 진행", color: "bg-blue-500", icon: <Clock className="text-blue-500" /> },
+            { title: "환경적 요인", desc: "강풍에 의한 장비 이동, 빗물로 인한 노면 미끄러움 등", color: "bg-neutral-400", icon: <Wind className="text-neutral-400" /> }
+          ].map((item, idx) => (
+            <div key={idx} className="group bg-white p-5 rounded-[2rem] border border-neutral-100 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-start gap-5">
+              <div className="mt-1 w-14 h-14 bg-neutral-50 rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                {React.cloneElement(item.icon as React.ReactElement, { size: 32 })}
+              </div>
+              <div className="flex-1">
+                <h4 className="font-black text-2xl mb-1 text-neutral-900 flex items-center gap-3">
+                  <div className={cn("w-1.5 h-6 rounded-full", item.color)} />
+                  {item.title}
+                </h4>
+                <p className="text-lg text-neutral-500 leading-snug font-medium">{item.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </WebSlide>,
+
+    // Slide 12: 25년 주요 사례
+    <WebSlide>
+      <div className="flex flex-col h-full -mt-4">
+        <div className="flex items-end justify-between mb-4">
+          <SectionHeader 
+            label="11. Case Studies" 
+            title="'25년 주요 사고 사례" 
+          />
+          <div className="mb-6 hidden lg:block">
+            <div className="text-right">
+              <div className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">Global Safety Network</div>
+              <div className="text-sm font-bold text-neutral-900 italic">Real-time Ground Incident Monitoring</div>
+            </div>
+          </div>
+        </div>
+        
+        <div className="flex-1 bg-white rounded-[1rem] p-4 border border-neutral-200 shadow-2xl relative overflow-hidden group flex flex-col">
+          {/* News Portal Header */}
+          <div className="flex items-center justify-between mb-4 border-b-2 border-neutral-900 pb-3">
+            <div className="flex items-center gap-4">
+              <div className="bg-neutral-900 text-white px-3 py-1 text-[10px] font-black uppercase tracking-tighter italic">
+                Breaking News
+              </div>
+              <span className="text-xs font-black text-neutral-400 font-mono">2025 GROUND SAFETY REPORT</span>
+            </div>
+            <div className="flex items-center gap-4 text-neutral-400">
+              <div className="flex items-center gap-1 text-[10px] font-bold">
+                <div className="w-2 h-2 bg-red-600 rounded-full animate-pulse" />
+                LIVE
+              </div>
+              <Search size={14} />
+              <Menu size={14} />
+            </div>
+          </div>
+          
+          <div className="flex-1 min-h-0">
+            <NewsHeadlines onHeadlineClick={(headline) => setSelectedWord(headline)} />
+          </div>
+        </div>
+      </div>
+    </WebSlide>,
+
+    <WebSlide>
+      <div className="h-full flex flex-col">
+        <SectionHeader 
+          label="13. Case Study" 
+          title="2025년 주요 지상안전사고 갤러리" 
+        />
+        <div className="flex-1 min-h-0">
+          <AccidentGallery />
+        </div>
+      </div>
+    </WebSlide>,
+
+    // Slide 14: 웹사이트 소개
+    <WebSlide>
+      <SectionHeader 
+        label="14. Platform" 
+        title="'공항 지상안전사고 예방' 웹사이트" 
+      />
+      <div className="flex-1 min-h-0 mt-4 rounded-3xl overflow-hidden border border-neutral-200 shadow-2xl relative bg-neutral-50 flex items-center justify-center">
+        <img 
+          src="/images/batang.jpg" 
+          alt="Ground Safety Website" 
+          className="w-full h-full object-contain scale-90"
+          referrerPolicy="no-referrer"
+        />
+        <div className="absolute bottom-8 left-8 bg-white/90 backdrop-blur-md p-6 rounded-2xl border border-white shadow-xl">
+          <p className="text-2xl font-black text-neutral-900 mb-2">지금 바로 접속하세요</p>
+          <p className="text-lg font-bold text-blue-600">bandinuguri.github.io/safe/</p>
+        </div>
+      </div>
+    </WebSlide>,
+
+    // Slide 15: Outro
+    <WebSlide>
+      <div className="h-full flex flex-col justify-center items-start">
+        <motion.span 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-[10px] font-mono uppercase tracking-[0.5em] mb-4 text-blue-600 font-bold"
+        >
+          Conclusion
+        </motion.span>
+        <h2 className="text-[8vw] font-bold tracking-tighter leading-[0.8] mb-8">
+          SAFE GROUND<br />
+          <span className="text-blue-600">SAFE FLIGHT.</span>
+        </h2>
+        <p className="text-xl text-neutral-500 max-w-2xl leading-tight mb-8">
+          안전은 타협의 대상이 아닙니다. 우리의 철저한 준비가 모두의 안전을 보장합니다.
+        </p>
+        <button 
+          onClick={() => setCurrentSlide(0)}
+          className="group flex items-center gap-4 text-lg font-bold border-b-2 border-black pb-1 hover:gap-8 transition-all"
+        >
+          Restart Presentation <ArrowRight className="text-blue-600" />
+        </button>
+      </div>
+    </WebSlide>,
+    <WebSlide className="items-center justify-center text-center">
+      <h2 className="text-8xl font-black tracking-tighter mb-8">감사합니다.</h2>
+      <p className="text-2xl text-neutral-500 mb-12">발표를 마칩니다.</p>
+      <button 
+        onClick={() => window.print()}
+        className="absolute bottom-12 right-12 px-8 py-4 bg-blue-600 text-white text-lg font-bold rounded-xl hover:bg-blue-700 transition-all flex items-center gap-2"
+      >
+        출력하기
+      </button>
+    </WebSlide>
+  ];
+
+  return (
+    <div 
+      ref={containerRef}
+      className="fixed inset-0 bg-white overflow-hidden select-none cursor-default"
+      onClick={nextSlide}
+    >
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentSlide}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="h-full w-full"
+        >
+          {slides[currentSlide]}
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Navigation Controls */}
+      <div 
+        className="absolute bottom-12 right-12 flex items-center gap-6 z-50"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center gap-4">
+          <button 
+            onClick={prevSlide}
+            className="w-12 h-12 flex items-center justify-center border border-black/10 hover:bg-black hover:text-white transition-all"
+          >
+            <ChevronLeft size={24} />
+          </button>
+          <div className="text-sm font-mono font-bold tracking-widest">
+            {String(currentSlide + 1).padStart(2, '0')} / {String(totalSlides).padStart(2, '0')}
+          </div>
+          <button 
+            onClick={nextSlide}
+            className="w-12 h-12 flex items-center justify-center border border-black/10 hover:bg-black hover:text-white transition-all"
+          >
+            <ChevronRight size={24} />
+          </button>
+        </div>
+        
+        <button 
+          onClick={toggleFullscreen}
+          className="w-12 h-12 flex items-center justify-center bg-black text-white hover:scale-110 transition-transform"
+        >
+          {isFullscreen ? <Minimize size={20} /> : <Maximize size={20} />}
+        </button>
+      </div>
+
+      {/* Progress Line */}
+      <div className="absolute top-0 left-0 w-full h-1 bg-black/5 z-50">
+        <motion.div 
+          className="h-full bg-black"
+          initial={{ width: 0 }}
+          animate={{ width: `${((currentSlide + 1) / totalSlides) * 100}%` }}
+          transition={{ duration: 0.5, ease: "circOut" }}
+        />
+      </div>
+
+      {/* Keyboard Shortcuts Hint */}
+      <div className="absolute bottom-12 left-12 opacity-20 hover:opacity-100 transition-opacity z-50 hidden md:block">
+        <div className="flex gap-8 text-[10px] font-mono uppercase tracking-widest">
+          <div className="flex flex-col">
+            <span className="opacity-40">Next</span>
+            <span>Click / Space / →</span>
+          </div>
+          <div className="flex flex-col">
+            <span className="opacity-40">Prev</span>
+            <span>Right Click / ←</span>
+          </div>
+          <div className="flex flex-col">
+            <span className="opacity-40">View</span>
+            <span>F for Fullscreen</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Word Detail Modal */}
+      <AnimatePresence>
+        {selectedWord && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm"
+            onClick={() => setSelectedWord(null)}
+          >
+            <motion.div 
+              initial={{ scale: 0.9, y: 40, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.9, y: 40, opacity: 0 }}
+              className="bg-white rounded-[4rem] p-16 max-w-5xl w-full shadow-[0_48px_96px_-12px_rgba(0,0,0,0.4)] relative border border-neutral-100"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button 
+                onClick={() => setSelectedWord(null)}
+                className="absolute top-10 right-10 p-4 hover:bg-neutral-100 rounded-full transition-all hover:rotate-90 active:scale-90"
+              >
+                <X size={40} />
+              </button>
+              
+              <div className="mb-12">
+                <span className="text-sm font-black text-blue-600 font-mono uppercase tracking-[0.3em] mb-6 block">Case Study Analysis</span>
+                <h2 className="text-7xl font-black tracking-tighter leading-[1.1] mb-10 text-neutral-900">{selectedWord.text}</h2>
+                
+                <div className="flex flex-wrap gap-6">
+                  {selectedWord.airport && (
+                    <div className="px-8 py-4 bg-neutral-50 rounded-3xl border border-neutral-100 shadow-sm">
+                      <span className="text-[10px] font-black text-neutral-400 block uppercase tracking-[0.2em] mb-1">Airport</span>
+                      <span className="text-2xl font-black text-neutral-900">{selectedWord.airport}</span>
+                    </div>
+                  )}
+                  {selectedWord.date && (
+                    <div className="px-8 py-4 bg-neutral-50 rounded-3xl border border-neutral-100 shadow-sm">
+                      <span className="text-[10px] font-black text-neutral-400 block uppercase tracking-[0.2em] mb-1">Date & Time</span>
+                      <span className="text-2xl font-black text-neutral-900">{selectedWord.date}</span>
+                    </div>
+                  )}
+                  {selectedWord.cause && (
+                    <div className="px-8 py-4 bg-blue-50/50 rounded-3xl border border-blue-100 shadow-sm">
+                      <span className="text-[10px] font-black text-blue-400 block uppercase tracking-[0.2em] mb-1">Root Cause</span>
+                      <span className="text-2xl font-black text-blue-600">{selectedWord.cause}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="p-16 bg-neutral-900 rounded-[3.5rem] shadow-2xl relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/10 blur-[100px] pointer-events-none" />
+                <span className="text-[10px] font-black text-neutral-500 block uppercase tracking-[0.3em] mb-6">Accident Description</span>
+                <p className="text-2xl text-white leading-[1.7] font-medium break-keep tracking-tight">
+                  {selectedWord.content}
+                </p>
+              </div>
+
+              <div className="mt-16 flex justify-end">
+                <button 
+                  onClick={() => setSelectedWord(null)}
+                  className="px-12 py-6 bg-black text-white text-xl font-black rounded-3xl hover:scale-105 active:scale-95 transition-all shadow-xl shadow-black/20"
+                >
+                  확인 및 닫기
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
