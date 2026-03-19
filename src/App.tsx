@@ -984,7 +984,7 @@ export default function App() {
             <div className="flex-1 flex flex-col justify-center">
               <p className="text-[34px] leading-[3] text-neutral-200 font-medium mb-4 tracking-tight">
                 지상안전사고의 대부분은 <span className="text-white font-bold border-b-4 border-blue-600 pb-1">인적 요인</span>에 의해 발생하며,<br />
-                특히 <span className="text-blue-400 font-bold text-[39px]">운전자 및 작업자의 부주의</span>가<br />
+                특히 <span className="text-blue-400 font-bold text-[44px]">운전자 및 작업자의 부주의</span>가<br />
                 사고의 결정적인 원인이 되고 있습니다.
               </p>
             </div>
@@ -1029,7 +1029,7 @@ export default function App() {
                   <div className={cn("w-1.5 h-6 rounded-full", item.color)} />
                   {item.title}
                 </h4>
-                <p className="text-[20px] text-neutral-500 leading-snug font-medium">{item.desc}</p>
+                <p className="text-[22px] text-neutral-500 leading-snug font-medium">{item.desc}</p>
               </div>
             </div>
           ))}
@@ -1112,7 +1112,7 @@ export default function App() {
         <img 
           src={`${BASE_URL}images/batang.jpg`} 
           alt="Ground Safety Website" 
-          className="w-full h-full object-contain scale-90 transition-transform duration-300 group-hover:scale-125"
+          className="w-full h-full object-contain scale-90 transition-transform duration-300 group-hover:scale-[2.2]"
           style={{ transformOrigin: '50% 50%' }}
           referrerPolicy="no-referrer"
         />

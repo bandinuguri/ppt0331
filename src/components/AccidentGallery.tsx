@@ -353,12 +353,12 @@ const AccidentGallery: React.FC = () => {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ 
                 opacity: 1, 
-                scale: focusedIndex === index ? 1.3 : 1,
+                scale: focusedIndex === index ? 2.0 : 1,
                 zIndex: focusedIndex === index ? 10 : 1,
                 boxShadow: focusedIndex === index ? "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)" : "none",
                 borderColor: focusedIndex === index ? "#3b82f6" : "transparent"
               }}
-              whileHover={{ scale: 1.15, zIndex: 50 }}
+              whileHover={{ scale: 1.5, zIndex: 50 }}
               className="relative aspect-auto rounded-2xl overflow-hidden cursor-pointer border-2 transition-all bg-neutral-100 group"
             >
               <img 
