@@ -349,7 +349,7 @@ export default function App() {
   const [selectedWord, setSelectedWord] = useState<{ text: string, content: string, airport?: string, date?: string, cause?: string } | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const totalSlides = 15;
+  const totalSlides = slides.length;
 
   const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % totalSlides);
@@ -1214,6 +1214,12 @@ export default function App() {
       </div>
     </WebSlide>
   ];
+
+  // Debug: 슬라이드 개수 확인
+  console.log('Total slides:', slides.length);
+  React.useEffect(() => {
+    console.log('Slides array initialized with', slides.length, 'slides');
+  }, []);
 
   return (
     <div 
