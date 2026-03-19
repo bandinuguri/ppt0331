@@ -1148,15 +1148,70 @@ export default function App() {
         </button>
       </div>
     </WebSlide>,
-    <WebSlide className="items-center justify-center text-center">
-      <h2 className="text-8xl font-black tracking-tighter mb-8">감사합니다.</h2>
-      <p className="text-2xl text-neutral-500 mb-12">발표를 마칩니다.</p>
-      <button 
-        onClick={() => window.print()}
-        className="absolute bottom-12 right-12 px-8 py-4 bg-blue-600 text-white text-lg font-bold rounded-xl hover:bg-blue-700 transition-all flex items-center gap-2"
-      >
-        출력하기
-      </button>
+    
+    // Final Slide: Thank You
+    <WebSlide>
+      <div className="h-full flex flex-col justify-center items-center text-center relative overflow-hidden">
+        {/* Background Gradient Effects */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600/10 blur-[120px] rounded-full" />
+        <div className="absolute bottom-0 left-0 w-80 h-80 bg-blue-900/10 blur-[100px] rounded-full" />
+        
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="relative z-10"
+        >
+          {/* Main Thank You Message */}
+          <div className="mb-12">
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+              className="inline-block"
+            >
+              <AlertTriangle size={80} className="mx-auto mb-8 text-blue-600" />
+            </motion.div>
+            
+            <h2 className="text-[10vw] font-black tracking-tighter leading-none mb-6">
+              감사합니다
+            </h2>
+            
+            <div className="w-32 h-1.5 bg-blue-600 mx-auto mb-8 rounded-full" />
+            
+            <p className="text-3xl text-neutral-600 font-medium mb-4">
+              지상조업 안전사고예방 간담회
+            </p>
+            <p className="text-xl text-neutral-400">
+              발표를 마칩니다
+            </p>
+          </div>
+
+          {/* Safety Message */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8, duration: 0.8 }}
+            className="bg-blue-50/50 backdrop-blur-sm px-12 py-6 rounded-3xl border border-blue-100 inline-block"
+          >
+            <p className="text-xl font-bold text-blue-900 italic">
+              "안전은 선택이 아닌 필수입니다"
+            </p>
+          </motion.div>
+        </motion.div>
+
+        {/* Bottom Action Button */}
+        <motion.button
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2 }}
+          onClick={() => setCurrentSlide(0)}
+          className="absolute bottom-12 left-1/2 -translate-x-1/2 group flex items-center gap-3 px-6 py-3 bg-white border-2 border-neutral-200 rounded-xl hover:border-blue-600 hover:bg-blue-50 transition-all shadow-lg hover:shadow-xl"
+        >
+          <span className="text-lg font-bold text-neutral-700 group-hover:text-blue-600">처음으로 돌아가기</span>
+          <ArrowRight className="text-blue-600 group-hover:translate-x-1 transition-transform" />
+        </motion.button>
+      </div>
     </WebSlide>
   ];
 
