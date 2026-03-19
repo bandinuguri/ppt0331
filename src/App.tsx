@@ -106,7 +106,7 @@ const PenaltyTable = ({ data }: { data: any[] }) => (
       <thead>
         <tr className="bg-neutral-900 text-white text-base uppercase tracking-wider">
           <th className="py-6 px-4 text-center border-r border-white/10 w-[8%]">구분</th>
-          <th className="py-6 px-8 text-left border-r border-white/10 w-[52%]">위반사항</th>
+          <th className="py-6 px-8 text-center border-r border-white/10 w-[52%]">위반사항</th>
           <th className="py-6 px-2 text-center border-r border-white/10 w-[13.3%]">1차</th>
           <th className="py-6 px-2 text-center border-r border-white/10 w-[13.3%]">2차</th>
           <th className="py-6 px-2 text-center w-[13.3%]">3차</th>
@@ -581,8 +581,8 @@ export default function App() {
         label="02. Accident Types" 
         title="지상안전사고 유형" 
       />
-      <div className="mt-8 w-full">
-        <img src={`${BASE_URL}images/con-03.jpg`} alt="Ground Safety Accident Types" className="w-full h-auto rounded-2xl shadow-lg" referrerPolicy="no-referrer" />
+      <div className="flex-1 flex items-center justify-center mt-4">
+        <img src={`${BASE_URL}images/con-03.jpg`} alt="Ground Safety Accident Types" className="max-w-full max-h-full object-contain rounded-2xl shadow-lg" referrerPolicy="no-referrer" />
       </div>
     </WebSlide>,
 
@@ -592,7 +592,7 @@ export default function App() {
         label="03. Reporting" 
         title="지상안전사고 신고" 
       />
-      <div className="mt-8">
+      <div className="flex-1 flex flex-col justify-center">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-4 items-center">
           {/* Step 1: 발생 */}
           <motion.div 
@@ -667,13 +667,13 @@ export default function App() {
             </p>
           </motion.div>
         </div>
-      </div>
 
-      <div className="mt-16 p-6 bg-red-50 border border-red-100 rounded-2xl flex items-center gap-4">
-        <Info className="text-red-600" />
-        <p className="text-lg font-medium text-red-900">
-          허위 보고 또는 보고 누락 시 관련 법령에 따라 엄중한 처벌을 받을 수 있습니다.
-        </p>
+        <div className="mt-8 p-6 bg-red-50 border border-red-100 rounded-2xl flex items-center gap-4">
+          <Info className="text-red-600" />
+          <p className="text-2xl font-medium text-red-900">
+            허위 보고 또는 보고 누락 시 관련 법령에 따라 엄중한 처벌을 받을 수 있습니다.
+          </p>
+        </div>
       </div>
     </WebSlide>,
 
