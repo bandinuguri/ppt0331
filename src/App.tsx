@@ -494,7 +494,7 @@ export default function App() {
       <div className="h-full flex flex-col justify-center">
         <SectionHeader 
           label="Attachment 2" 
-          title="추진체계" 
+          title="지상안전사고 예방 추진체계" 
         />
         <div className="mt-6 flex flex-col gap-12">
         <div className="flex gap-6 p-6 bg-white border border-neutral-200 rounded-[2.5rem] shadow-md hover:shadow-xl transition-all hover:-translate-y-1">
