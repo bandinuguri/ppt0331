@@ -71,7 +71,7 @@ const occurrenceData = [
   { year: '2022', accidents: 22, converted: 0.375, flights: 586666 },
   { year: '2023', accidents: 29, converted: 0.455, flights: 637362 },
   { year: '2024', accidents: 36, converted: 0.403, flights: 893300 },
-  { year: "'25*", accidents: 21, converted: 0.230, flights: 912744 },
+  { year: "2025", accidents: 21, converted: 0.230, flights: 912744 },
 ];
 
 const typeData = [
@@ -467,12 +467,12 @@ export default function App() {
                 </thead>
                 <tbody className="divide-y divide-neutral-100">
                   {[
-                    { time: "14:00 ~ 14:05 (5')", content: "인사 말씀", note: "공항정책관" },
+                    { time: "14:00 ~ 14:05 (5')", content: "인사 말씀", note: "공항운영과" },
                     { time: "14:05 ~ 14:15 (10')", content: "'25년 지상조업 사고현황 및 사례 교육", note: "" },
                     { time: "14:15 ~ 14:35 (20')", content: "양 공항공사 사고현황 및 사고예방 계획", note: "" },
                     { time: "14:35 ~ 14:55 (20')", content: "지상조업 사고 예방 제안사항 검토", note: "" },
                     { time: "14:55 ~ 15:15 (20')", content: "종사자 근로환경 개선 제안사항 검토", note: "" },
-                    { time: "15:15 ~ 15:30 (15')", content: "마무리 말씀", note: "공항운영과장" },
+                    { time: "15:15 ~ 15:30 (15')", content: "마무리 말씀", note: "공항정책관" },
                   ].map((row, i) => (
                     <tr key={i} className="hover:bg-blue-50/30 transition-colors">
                       <td className="p-3 px-6 font-mono text-[16px] text-neutral-500">{row.time}</td>
@@ -739,7 +739,7 @@ export default function App() {
         </div>
 
         {/* Chart */}
-        <div className="h-[340px] w-full bg-white rounded-3xl p-4">
+        <div className="h-[340px] w-full bg-white rounded-3xl p-4 border-2 border-neutral-200">
           <ResponsiveContainer width="100%" height="100%">
             <ComposedChart data={occurrenceData} margin={{ top: 40, right: 30, left: 20, bottom: 20 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
@@ -768,7 +768,7 @@ export default function App() {
                 {occurrenceData.map((entry, index) => (
                   <Cell 
                     key={`cell-${index}`} 
-                    fill={entry.year === "'25*" ? '#fee2e2' : '#f1f5f9'} 
+                    fill={entry.year === "2025" ? '#fee2e2' : '#f1f5f9'} 
                   />
                 ))}
                 <LabelList 
@@ -828,7 +828,7 @@ export default function App() {
             {[
               { year: '2023년', count: '29건', rate: '0.455', active: false },
               { year: '2024년', count: '36건', rate: '0.403', active: false },
-              { year: "'25*년", count: '21건', rate: '0.230', active: true },
+              { year: "2025년", count: '21건', rate: '0.230', active: true },
             ].map((item, i) => (
               <div 
                 key={i} 
@@ -1112,7 +1112,7 @@ export default function App() {
         <img 
           src={`${BASE_URL}images/batang.jpg`} 
           alt="Ground Safety Website" 
-          className="website-img w-full h-full object-contain scale-90 transition-transform duration-300 group-hover:scale-[2.2]"
+          className="website-img w-full h-full object-contain scale-110 transition-transform duration-300 group-hover:scale-125"
           style={{ transformOrigin: '50% 50%' }}
           referrerPolicy="no-referrer"
         />
