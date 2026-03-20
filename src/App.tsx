@@ -57,6 +57,7 @@ import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import NewsHeadlines from './components/NewsHeadlines';
 import AccidentGallery from './components/AccidentGallery';
+import { generatePrintWindow, downloadStandaloneHTML } from './utils/exportUtils';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -1191,7 +1192,7 @@ export default function App() {
             onClick={() => setCurrentSlide(0)}
             className="group flex items-center gap-3 px-6 py-3 bg-white border-2 border-neutral-200 rounded-xl hover:border-blue-600 hover:bg-blue-50 transition-all shadow-lg hover:shadow-xl"
           >
-            <span className="text-lg font-bold text-neutral-700 group-hover:text-blue-600">처음으로 돌아가기</span>
+            <span className="text-lg font-bold text-neutral-700 group-hover:text-blue-600">처음으로</span>
             <ArrowRight className="text-blue-600 group-hover:translate-x-1 transition-transform" />
           </motion.button>
           
@@ -1199,12 +1200,25 @@ export default function App() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.4 }}
-            onClick={() => window.print()}
+            onClick={generatePrintWindow}
             className="group flex items-center gap-3 px-6 py-3 bg-blue-600 text-white border-2 border-blue-600 rounded-xl hover:bg-blue-700 hover:border-blue-700 transition-all shadow-lg hover:shadow-xl"
           >
             <span className="text-lg font-bold">PDF 저장</span>
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </motion.button>
+
+          <motion.button
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.6 }}
+            onClick={downloadStandaloneHTML}
+            className="group flex items-center gap-3 px-6 py-3 bg-green-600 text-white border-2 border-green-600 rounded-xl hover:bg-green-700 hover:border-green-700 transition-all shadow-lg hover:shadow-xl"
+          >
+            <span className="text-lg font-bold">HTML 다운</span>
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
             </svg>
           </motion.button>
         </div>
