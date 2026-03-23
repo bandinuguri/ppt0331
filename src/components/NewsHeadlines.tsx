@@ -308,14 +308,14 @@ const NewsHeadlines: React.FC<NewsHeadlinesProps> = ({ onHeadlineClick }) => {
                   
                   <h3 className={cn(
                     "font-black text-neutral-900 leading-[1.15] mb-3 group-hover:text-blue-600 transition-colors",
-                    isFeatured ? "text-4xl" : "text-xl",
+                    isFeatured ? "text-5xl" : "text-2xl",
                     !isFeatured && !isWide ? "line-clamp-4" : "line-clamp-3"
                   )}>
                     {item.text}
                   </h3>
 
                   {isFeatured && (
-                    <p className="text-base text-neutral-500 line-clamp-3 mb-4 leading-relaxed">
+                    <p className="text-lg text-neutral-500 line-clamp-3 mb-4 leading-relaxed">
                       {item.content}
                     </p>
                   )}

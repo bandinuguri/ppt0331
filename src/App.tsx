@@ -120,31 +120,33 @@ const PenaltyTable = ({ data }: { data: any[] }) => {
   };
 
   return (
-    <div className="w-full bg-white rounded-[2.5rem] overflow-hidden shadow-2xl border border-neutral-100 h-full flex flex-col">
-      <table className="w-full flex-1 border-collapse table-fixed">
-        <thead>
-          <tr className="bg-neutral-900 text-white text-base uppercase tracking-wider">
-            <th className="py-6 px-4 text-center border-r border-white/10 w-[8%]">구분</th>
-            <th className="py-6 px-8 text-center border-r border-white/10 w-[52%]">위반사항</th>
-            <th className="py-6 px-2 text-center border-r border-white/10 w-[13.3%]">1차</th>
-            <th className="py-6 px-2 text-center border-r border-white/10 w-[13.3%]">2차</th>
-            <th className="py-6 px-2 text-center w-[13.3%]">3차</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((row, i) => (
-            <tr key={i} className="border-b border-neutral-100 hover:bg-neutral-50 transition-colors">
-              <td className="py-1 px-4 font-mono text-sm text-neutral-400 border-r border-neutral-100 text-center align-middle">{row.id}</td>
-              <td className="py-1 px-10 font-bold border-r border-neutral-100 leading-[1.1] text-[28px] align-middle text-neutral-900">
-                <div className="line-clamp-2 break-keep">{row.title}</div>
-              </td>
-              <td className="py-1 px-2 text-center border-r border-neutral-100 text-neutral-600 text-xs align-middle font-bold whitespace-pre-line">{formatText(row.c1 || row.first)}</td>
-              <td className="py-1 px-2 text-center border-r border-neutral-100 text-neutral-600 text-xs align-middle font-bold whitespace-pre-line">{formatText(row.c2 || row.second)}</td>
-              <td className="py-1 px-2 text-center text-neutral-600 text-xs align-middle font-bold whitespace-pre-line">{formatText(row.c3 || row.third)}</td>
+    <div className="w-full bg-white rounded-[2.5rem] shadow-2xl border border-neutral-100 h-full flex flex-col overflow-hidden">
+      <div className="overflow-y-auto flex-1">
+        <table className="w-full border-collapse table-fixed">
+          <thead className="sticky top-0 z-10">
+            <tr className="bg-neutral-900 text-white text-base uppercase tracking-wider">
+              <th className="py-6 px-4 text-center border-r border-white/10 w-[8%]">구분</th>
+              <th className="py-6 px-8 text-center border-r border-white/10 w-[52%]">위반사항</th>
+              <th className="py-6 px-2 text-center border-r border-white/10 w-[13.3%]">1차</th>
+              <th className="py-6 px-2 text-center border-r border-white/10 w-[13.3%]">2차</th>
+              <th className="py-6 px-2 text-center w-[13.3%]">3차</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data.map((row, i) => (
+              <tr key={i} className="border-b border-neutral-100 hover:bg-neutral-50 transition-colors">
+                <td className="py-4 px-4 font-mono text-sm text-neutral-400 border-r border-neutral-100 text-center align-middle">{row.id}</td>
+                <td className="py-4 px-10 font-bold border-r border-neutral-100 leading-[1.1] text-[28px] align-middle text-neutral-900">
+                  <div className="line-clamp-2 break-keep">{row.title}</div>
+                </td>
+                <td className="py-4 px-2 text-center border-r border-neutral-100 text-neutral-600 text-xs align-middle font-bold whitespace-pre-line">{formatText(row.c1 || row.first)}</td>
+                <td className="py-4 px-2 text-center border-r border-neutral-100 text-neutral-600 text-xs align-middle font-bold whitespace-pre-line">{formatText(row.c2 || row.second)}</td>
+                <td className="py-4 px-2 text-center text-neutral-600 text-xs align-middle font-bold whitespace-pre-line">{formatText(row.c3 || row.third)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
@@ -572,7 +574,7 @@ export default function App() {
             <div className="p-8 bg-blue-50 border-l-4 border-blue-600 rounded-r-2xl">
               <h3 className="text-2xl font-bold mb-4">정의</h3>
               <p className="text-2xl text-neutral-800 leading-relaxed">
-                "지상안전사고"란 공항 보호구역에서 사람, 시설, 차량 및 장비 등으로 인하여 <span className="font-bold text-black text-[1.1em]">인명피해가 발생하거나</span> <span className="font-bold text-black text-[1.1em]">항공기,</span> <span className="font-bold text-black text-[1.1em]">시설, 차량등에 물적피해가 발생한 것</span>을 말한다. 다만, 항공기 운항과 관련된 사고는 제외한다.
+                "지상안전사고"란 공항 보호구역에서 사람, 시설, 차량 및 장비 등으로 인하여 <span className="font-bold text-black text-[1.1em]">인명피해가 발생하거나</span> <span className="font-bold text-black text-[1.1em]">항공기,</span> <span className="font-bold text-black text-[1.1em]">시설, 차량등에 물적피해가 발생한 것</span>을 말한다. 다만, 항공기 사고, 준사고, 항공안전장애는 제외한다.
               </p>
             </div>
             <div className="p-8 bg-neutral-50 border-l-4 border-neutral-400 rounded-r-2xl">
@@ -929,7 +931,7 @@ export default function App() {
         label="08. Goals" 
         title="'25년 지상안전사고 예방 목표 달성 현황" 
       />
-      <div className="flex flex-col items-center justify-center h-[calc(100%-160px)]">
+      <div className="flex flex-col items-center justify-center h-[calc(100%-280px)] mt-24">
         <div className="grid grid-cols-2 gap-8 w-full">
           <GoalTable 
             title="한국공항공사" 
@@ -1014,7 +1016,7 @@ export default function App() {
         </div>
 
         {/* 기타 요인들 (Right Section) */}
-        <div className="lg:col-span-5 flex flex-col gap-3">
+        <div className="lg:col-span-5 flex flex-col gap-6 justify-between">
           {[
             { title: "사주경계 미흡", desc: "출발 전 주변 확인 소홀, 교차로/유도로 진입 전 일단정지 규정 미준수", color: "bg-amber-500", icon: <Move className="text-amber-500" /> },
             { title: "안전 수칙 미준수", desc: "통과 높이 제한 무시, 안전거리 미확보, 유도자 없이 후진 접현 시도", color: "bg-red-500", icon: <ShieldCheck className="text-red-500" /> },
