@@ -120,33 +120,31 @@ const PenaltyTable = ({ data }: { data: any[] }) => {
   };
 
   return (
-    <div className="w-full bg-white rounded-[2.5rem] shadow-2xl border border-neutral-100 h-full flex flex-col overflow-hidden">
-      <div className="overflow-y-auto flex-1">
-        <table className="w-full border-collapse table-fixed">
-          <thead className="sticky top-0 z-10">
-            <tr className="bg-neutral-900 text-white text-base uppercase tracking-wider">
-              <th className="py-6 px-4 text-center border-r border-white/10 w-[8%]">구분</th>
-              <th className="py-6 px-8 text-center border-r border-white/10 w-[52%]">위반사항</th>
-              <th className="py-6 px-2 text-center border-r border-white/10 w-[13.3%]">1차</th>
-              <th className="py-6 px-2 text-center border-r border-white/10 w-[13.3%]">2차</th>
-              <th className="py-6 px-2 text-center w-[13.3%]">3차</th>
+    <div className="w-full bg-white rounded-[2.5rem] shadow-2xl border border-neutral-100 h-full flex flex-col">
+      <table className="w-full border-collapse table-fixed">
+        <thead>
+          <tr className="bg-neutral-900 text-white text-base uppercase tracking-wider">
+            <th className="py-4 px-4 text-center border-r border-white/10 w-[8%]">구분</th>
+            <th className="py-4 px-8 text-center border-r border-white/10 w-[52%]">위반사항</th>
+            <th className="py-4 px-2 text-center border-r border-white/10 w-[13.3%]">1차</th>
+            <th className="py-4 px-2 text-center border-r border-white/10 w-[13.3%]">2차</th>
+            <th className="py-4 px-2 text-center w-[13.3%]">3차</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((row, i) => (
+            <tr key={i} className="border-b border-neutral-100 hover:bg-neutral-50 transition-colors">
+              <td className="py-2 px-4 font-mono text-sm text-neutral-400 border-r border-neutral-100 text-center align-middle">{row.id}</td>
+              <td className="py-2 px-10 font-bold border-r border-neutral-100 leading-[1.1] text-[28px] align-middle text-neutral-900">
+                <div className="line-clamp-2 break-keep">{row.title}</div>
+              </td>
+              <td className="py-2 px-2 text-center border-r border-neutral-100 text-neutral-600 text-xs align-middle font-bold whitespace-pre-line">{formatText(row.c1 || row.first)}</td>
+              <td className="py-2 px-2 text-center border-r border-neutral-100 text-neutral-600 text-xs align-middle font-bold whitespace-pre-line">{formatText(row.c2 || row.second)}</td>
+              <td className="py-2 px-2 text-center text-neutral-600 text-xs align-middle font-bold whitespace-pre-line">{formatText(row.c3 || row.third)}</td>
             </tr>
-          </thead>
-          <tbody>
-            {data.map((row, i) => (
-              <tr key={i} className="border-b border-neutral-100 hover:bg-neutral-50 transition-colors">
-                <td className="py-4 px-4 font-mono text-sm text-neutral-400 border-r border-neutral-100 text-center align-middle">{row.id}</td>
-                <td className="py-4 px-10 font-bold border-r border-neutral-100 leading-[1.1] text-[28px] align-middle text-neutral-900">
-                  <div className="line-clamp-2 break-keep">{row.title}</div>
-                </td>
-                <td className="py-4 px-2 text-center border-r border-neutral-100 text-neutral-600 text-xs align-middle font-bold whitespace-pre-line">{formatText(row.c1 || row.first)}</td>
-                <td className="py-4 px-2 text-center border-r border-neutral-100 text-neutral-600 text-xs align-middle font-bold whitespace-pre-line">{formatText(row.c2 || row.second)}</td>
-                <td className="py-4 px-2 text-center text-neutral-600 text-xs align-middle font-bold whitespace-pre-line">{formatText(row.c3 || row.third)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
@@ -931,7 +929,7 @@ export default function App() {
         label="08. Goals" 
         title="'25년 지상안전사고 예방 목표 달성 현황" 
       />
-      <div className="flex flex-col items-center justify-center h-[calc(100%-280px)] mt-24">
+      <div className="flex flex-col items-center justify-center h-full pt-40">
         <div className="grid grid-cols-2 gap-8 w-full">
           <GoalTable 
             title="한국공항공사" 
