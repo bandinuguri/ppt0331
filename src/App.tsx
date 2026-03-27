@@ -1083,7 +1083,7 @@ export default function App() {
     <WebSlide>
       <div className="h-full flex flex-col">
         <SectionHeader 
-          label="13. Case Study" 
+          label="13. Gallery" 
           title="2025년 주요 지상안전사고 갤러리" 
         />
         <div className="flex-1 min-h-0">
@@ -1092,10 +1092,439 @@ export default function App() {
       </div>
     </WebSlide>,
 
-    // Slide 14: 웹사이트 소개
+    // Slide 14: 설문조사 개요
     <WebSlide>
       <SectionHeader 
-        label="14. Platform" 
+        label="14. Survey" 
+        title="지상조업 사고예방 및 근무환경 개선 설문조사" 
+      />
+      <div className="flex flex-col justify-center h-[calc(100%-180px)] px-20">
+        <div className="space-y-8">
+          <div className="flex items-center gap-4 mb-8">
+            <div className="w-2 h-16 bg-blue-600 rounded-full" />
+            <div>
+              <h3 className="text-4xl font-black text-neutral-900 mb-2">(목적) 지상조업 현장 사고 예방 아이디어 발굴 및 근무환경 개선 방안 검토</h3>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-6">
+            <div className="bg-blue-50 p-8 rounded-3xl border-l-8 border-blue-600">
+              <h4 className="text-2xl font-black text-blue-900 mb-4 flex items-center gap-3">
+                <span className="flex items-center justify-center w-10 h-10 bg-blue-600 text-white rounded-full text-lg font-black">①</span>
+                조사내용
+              </h4>
+              <p className="text-xl text-neutral-700 leading-relaxed">
+                근로자가 체감하는 지상조업 현장 위험도 및 ②사고 예방 아이디어, ③작업환경 만족도 및 ④개선 아이디어 등
+              </p>
+            </div>
+
+            <div className="bg-neutral-50 p-8 rounded-3xl border-l-8 border-neutral-400">
+              <h4 className="text-2xl font-black text-neutral-900 mb-4 flex items-center gap-3">
+                <span className="flex items-center justify-center w-10 h-10 bg-neutral-600 text-white rounded-full text-lg font-black">대상</span>
+                기간 및 대상
+              </h4>
+              <p className="text-xl text-neutral-700 leading-relaxed mb-3">
+                <strong className="text-neutral-900">(대상·기간)</strong> 공항공사·항공사·지상조업사 / '26.3.20~3.25 * 참여자 74명
+              </p>
+              <p className="text-xl text-neutral-700 leading-relaxed">
+                <strong className="text-neutral-900">(기타)</strong> 사고예방 아이디어, 근무환경 개선 방안 의견 제출자 각 10명에게 커피 쿠폰 제공
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </WebSlide>,
+
+    // Slide 15: 설문조사 결과 - 위험도 인식
+    <WebSlide>
+      <SectionHeader 
+        label="15. Survey Results" 
+        title="설문조사 결과" 
+      />
+      <div className="flex flex-col justify-center h-[calc(100%-180px)] px-12">
+        <div className="space-y-10">
+          {/* 위험도 인식 */}
+          <div className="bg-white p-8 rounded-3xl border-2 border-neutral-200 shadow-xl">
+            <h3 className="text-3xl font-black text-neutral-900 mb-6 flex items-center gap-3">
+              <div className="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center">
+                <span className="text-white text-2xl">⚠</span>
+              </div>
+              (위험도 인식) 현장 근로자 <span className="text-red-600">47%</span>(35명)는 지상조업환경이 위험하다고 생각하고 있으며, <span className="text-blue-600">27%</span>(20명)만 비교적 안전하다고 생각하고 있음
+            </h3>
+            
+            <div className="grid grid-cols-2 gap-10">
+              {/* 테이블 */}
+              <div className="bg-neutral-50 p-6 rounded-2xl">
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr className="border-b-2 border-neutral-300">
+                      <th className="py-3 px-4 text-center text-base font-bold text-neutral-700">매우 위험</th>
+                      <th className="py-3 px-4 text-center text-base font-bold text-neutral-700">위험</th>
+                      <th className="py-3 px-4 text-center text-base font-bold text-neutral-700">보통</th>
+                      <th className="py-3 px-4 text-center text-base font-bold text-neutral-700">조금 안전</th>
+                      <th className="py-3 px-4 text-center text-base font-bold text-neutral-700">안전</th>
+                      <th className="py-3 px-4 text-center text-base font-bold text-neutral-700">비고</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="border-b border-neutral-200">
+                      <td className="py-4 px-4 text-center text-2xl font-black text-red-600">9명<div className="text-sm text-neutral-500">(12%)</div></td>
+                      <td className="py-4 px-4 text-center text-2xl font-black text-red-500">26명<div className="text-sm text-neutral-500">(36%)</div></td>
+                      <td className="py-4 px-4 text-center text-2xl font-black text-neutral-600">19명<div className="text-sm text-neutral-500">(26%)</div></td>
+                      <td className="py-4 px-4 text-center text-2xl font-black text-blue-500">5명<div className="text-sm text-neutral-500">(7%)</div></td>
+                      <td className="py-4 px-4 text-center text-2xl font-black text-blue-600">15명<div className="text-sm text-neutral-500">(20%)</div></td>
+                      <td className="py-4 px-4 text-center text-lg font-bold text-neutral-700">74명</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              {/* 그래프 */}
+              <div className="flex items-center justify-center">
+                <div className="relative w-full h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={[
+                      { name: '매우\n위험', value: 12, color: '#dc2626' },
+                      { name: '위험', value: 36, color: '#ef4444' },
+                      { name: '보통', value: 26, color: '#737373' },
+                      { name: '조금\n안전', value: 7, color: '#3b82f6' },
+                      { name: '안전', value: 20, color: '#2563eb' }
+                    ]} margin={{ top: 20, right: 30, left: 20, bottom: 30 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                      <XAxis dataKey="name" tick={{ fontSize: 14, fontWeight: 700 }} />
+                      <YAxis tick={{ fontSize: 12 }} />
+                      <Bar dataKey="value" radius={[8, 8, 0, 0]}>
+                        {[
+                          { name: '매우위험', value: 12, color: '#dc2626' },
+                          { name: '위험', value: 36, color: '#ef4444' },
+                          { name: '보통', value: 26, color: '#737373' },
+                          { name: '조금안전', value: 7, color: '#3b82f6' },
+                          { name: '안전', value: 20, color: '#2563eb' }
+                        ].map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                        <LabelList dataKey="value" position="top" formatter={(value: number) => `${value}%`} style={{ fontSize: 16, fontWeight: 700 }} />
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 근무환경 만족도 */}
+          <div className="bg-white p-8 rounded-3xl border-2 border-neutral-200 shadow-xl">
+            <h3 className="text-3xl font-black text-neutral-900 mb-6 flex items-center gap-3">
+              <div className="w-12 h-12 bg-amber-600 rounded-xl flex items-center justify-center">
+                <span className="text-white text-2xl">📋</span>
+              </div>
+              (근무환경 만족도) <span className="text-amber-600">77%</span>(57명)는 평균 이상의 만족을 표시하였으며, <span className="text-neutral-600">23%</span>(17명)는 휴게공간, 근무시간, 상벌제도 등 불만족 반응
+            </h3>
+            
+            <div className="grid grid-cols-2 gap-10">
+              {/* 테이블 */}
+              <div className="bg-neutral-50 p-6 rounded-2xl">
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr className="border-b-2 border-neutral-300">
+                      <th className="py-3 px-4 text-center text-base font-bold text-neutral-700">매우 불만족</th>
+                      <th className="py-3 px-4 text-center text-base font-bold text-neutral-700">불만족</th>
+                      <th className="py-3 px-4 text-center text-base font-bold text-neutral-700">보통</th>
+                      <th className="py-3 px-4 text-center text-base font-bold text-neutral-700">조금 만족</th>
+                      <th className="py-3 px-4 text-center text-base font-bold text-neutral-700">만족</th>
+                      <th className="py-3 px-4 text-center text-base font-bold text-neutral-700">비고</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="border-b border-neutral-200">
+                      <td className="py-4 px-4 text-center text-2xl font-black text-red-600">5명<div className="text-sm text-neutral-500">(7%)</div></td>
+                      <td className="py-4 px-4 text-center text-2xl font-black text-red-500">12명<div className="text-sm text-neutral-500">(16%)</div></td>
+                      <td className="py-4 px-4 text-center text-2xl font-black text-neutral-600">29명<div className="text-sm text-neutral-500">(39%)</div></td>
+                      <td className="py-4 px-4 text-center text-2xl font-black text-blue-500">14명<div className="text-sm text-neutral-500">(19%)</div></td>
+                      <td className="py-4 px-4 text-center text-2xl font-black text-blue-600">14명<div className="text-sm text-neutral-500">(19%)</div></td>
+                      <td className="py-4 px-4 text-center text-lg font-bold text-neutral-700">74명</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              {/* 그래프 */}
+              <div className="flex items-center justify-center">
+                <div className="relative w-full h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={[
+                      { name: '매우\n불만족', value: 7, color: '#dc2626' },
+                      { name: '불만족', value: 16, color: '#ef4444' },
+                      { name: '보통', value: 39, color: '#737373' },
+                      { name: '조금\n만족', value: 19, color: '#3b82f6' },
+                      { name: '만족', value: 19, color: '#2563eb' }
+                    ]} margin={{ top: 20, right: 30, left: 20, bottom: 30 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                      <XAxis dataKey="name" tick={{ fontSize: 14, fontWeight: 700 }} />
+                      <YAxis tick={{ fontSize: 12 }} />
+                      <Bar dataKey="value" radius={[8, 8, 0, 0]}>
+                        {[
+                          { name: '매우불만족', value: 7, color: '#dc2626' },
+                          { name: '불만족', value: 16, color: '#ef4444' },
+                          { name: '보통', value: 39, color: '#737373' },
+                          { name: '조금만족', value: 19, color: '#3b82f6' },
+                          { name: '만족', value: 19, color: '#2563eb' }
+                        ].map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                        <LabelList dataKey="value" position="top" formatter={(value: number) => `${value}%`} style={{ fontSize: 16, fontWeight: 700 }} />
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </WebSlide>,
+
+    // Slide 16: 지상조업 안전사고 예방 아이디어
+    <WebSlide>
+      <SectionHeader 
+        label="16. Safety Ideas" 
+        title="지상조업 안전사고 예방 아이디어" 
+      />
+      <div className="flex items-center justify-center h-[calc(100%-180px)]">
+        <div className="w-full max-w-6xl">
+          <table className="w-full border-collapse bg-white rounded-3xl overflow-hidden shadow-2xl">
+            <thead>
+              <tr className="bg-neutral-900 text-white">
+                <th className="py-6 px-6 text-center text-xl font-black w-1/4 border-r border-white/10">구분</th>
+                <th className="py-6 px-6 text-left text-xl font-black">내용</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b-2 border-neutral-200 hover:bg-blue-50 transition-colors">
+                <td className="py-6 px-6 align-top border-r border-neutral-200">
+                  <div className="flex items-center justify-center gap-3">
+                    <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center">
+                      <span className="text-white text-lg font-black">🚗</span>
+                    </div>
+                    <span className="text-2xl font-black text-neutral-900">차량·장비</span>
+                  </div>
+                </td>
+                <td className="py-6 px-8">
+                  <ul className="space-y-3 text-xl text-neutral-700 leading-relaxed">
+                    <li className="flex items-start gap-3">
+                      <span className="text-blue-600 font-black">•</span>
+                      <span>터그카 후진 시 후진등·경광등 설치 의무화</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-blue-600 font-black">•</span>
+                      <span>항공기 접현 경비 유도수 배치 및 시행 문행</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-blue-600 font-black">•</span>
+                      <span>화물터미널 터그카·지게차 단속 강화, 인도·항공기 주변 달리 적재 금지</span>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+              <tr className="border-b-2 border-neutral-200 hover:bg-amber-50 transition-colors">
+                <td className="py-6 px-6 align-top border-r border-neutral-200">
+                  <div className="flex items-center justify-center gap-3">
+                    <div className="w-10 h-10 bg-amber-600 rounded-xl flex items-center justify-center">
+                      <span className="text-white text-lg font-black">🛡️</span>
+                    </div>
+                    <span className="text-2xl font-black text-neutral-900">안전 인프라</span>
+                  </div>
+                </td>
+                <td className="py-6 px-8">
+                  <ul className="space-y-3 text-xl text-neutral-700 leading-relaxed">
+                    <li className="flex items-start gap-3">
+                      <span className="text-amber-600 font-black">•</span>
+                      <span>브릿지 계단 논슬립(고정착 미끄럼방지 테이프·타공형 매트) 강화</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-amber-600 font-black">•</span>
+                      <span>BSA 구역·GSE 도로 3거리 등 반사경·블라드콘·반사띠 설치</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-amber-600 font-black">•</span>
+                      <span>장비정치장 확대 및 장비별(버스, 벨트, 터그카) 구역 지정</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-amber-600 font-black">•</span>
+                      <span>원격주기장 승객 동선 등체, 차량 진출입 시 경광등·차벨 적용</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-amber-600 font-black">•</span>
+                      <span>야간 리모트 주기장 조도 향상 대책 마련</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-amber-600 font-black">•</span>
+                      <span>장비정치장에 항공기 무어링포인트 방식의 장비 무어링포인트 설치</span>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+              <tr className="hover:bg-green-50 transition-colors">
+                <td className="py-6 px-6 align-top border-r border-neutral-200">
+                  <div className="flex items-center justify-center gap-3">
+                    <div className="w-10 h-10 bg-green-600 rounded-xl flex items-center justify-center">
+                      <span className="text-white text-lg font-black">⚙️</span>
+                    </div>
+                    <span className="text-2xl font-black text-neutral-900">제도</span>
+                  </div>
+                </td>
+                <td className="py-6 px-8">
+                  <ul className="space-y-3 text-xl text-neutral-700 leading-relaxed">
+                    <li className="flex items-start gap-3">
+                      <span className="text-green-600 font-black">•</span>
+                      <span>낙뢰 발생 시 공항기관 주도 작업중단 권한 명확화</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-green-600 font-black">•</span>
+                      <span>운전석·조수석 휴대폰 사용 전면 금지 및 처벌규정 신설</span>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </WebSlide>,
+
+    // Slide 17: 근무환경 개선 아이디어
+    <WebSlide>
+      <SectionHeader 
+        label="17. Work Environment" 
+        title="근무환경 개선 아이디어" 
+      />
+      <div className="flex items-center justify-center h-[calc(100%-180px)]">
+        <div className="w-full max-w-6xl">
+          <table className="w-full border-collapse bg-white rounded-3xl overflow-hidden shadow-2xl">
+            <thead>
+              <tr className="bg-neutral-900 text-white">
+                <th className="py-6 px-6 text-center text-xl font-black w-1/4 border-r border-white/10">구분</th>
+                <th className="py-6 px-6 text-left text-xl font-black">내용</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b-2 border-neutral-200 hover:bg-purple-50 transition-colors">
+                <td className="py-6 px-6 align-top border-r border-neutral-200">
+                  <div className="flex items-center justify-center gap-3">
+                    <div className="w-10 h-10 bg-purple-600 rounded-xl flex items-center justify-center">
+                      <span className="text-white text-lg font-black">🏢</span>
+                    </div>
+                    <span className="text-2xl font-black text-neutral-900">휴게시설</span>
+                  </div>
+                </td>
+                <td className="py-6 px-8">
+                  <ul className="space-y-3 text-xl text-neutral-700 leading-relaxed">
+                    <li className="flex items-start gap-3">
+                      <span className="text-purple-600 font-black">•</span>
+                      <span>야외 근무자 폭염·강추위 시 열 식히거나 추위 피할 휴게공간 확대</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-purple-600 font-black">•</span>
+                      <span>대기실·휴게실 정결 및 냉난방 개선</span>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+              <tr className="border-b-2 border-neutral-200 hover:bg-blue-50 transition-colors">
+                <td className="py-6 px-6 align-top border-r border-neutral-200">
+                  <div className="flex items-center justify-center gap-3">
+                    <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center">
+                      <span className="text-white text-lg font-black">🔧</span>
+                    </div>
+                    <span className="text-2xl font-black text-neutral-900">장비지원</span>
+                  </div>
+                </td>
+                <td className="py-6 px-8">
+                  <ul className="space-y-3 text-xl text-neutral-700 leading-relaxed">
+                    <li className="flex items-start gap-3">
+                      <span className="text-blue-600 font-black">•</span>
+                      <span>BSA·주기장 먼저 제거 출입 차량 도입 및 주기적 점소</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-blue-600 font-black">•</span>
+                      <span>국제선 BSA 출발 벨트 수 확대 및 공간 확장</span>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+              <tr className="border-b-2 border-neutral-200 hover:bg-rose-50 transition-colors">
+                <td className="py-6 px-6 align-top border-r border-neutral-200">
+                  <div className="flex items-center justify-center gap-3">
+                    <div className="w-10 h-10 bg-rose-600 rounded-xl flex items-center justify-center">
+                      <span className="text-white text-lg font-black">👔</span>
+                    </div>
+                    <span className="text-2xl font-black text-neutral-900">위생</span>
+                  </div>
+                </td>
+                <td className="py-6 px-8">
+                  <ul className="space-y-3 text-xl text-neutral-700 leading-relaxed">
+                    <li className="flex items-start gap-3">
+                      <span className="text-rose-600 font-black">•</span>
+                      <span>하절실 환절 개선 및 상추지원 확장실 주기적인 청소</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-rose-600 font-black">•</span>
+                      <span>작업자 개인우의 건조 공간 및 탈의실 청결</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-rose-600 font-black">•</span>
+                      <span>팜프사이드 스맷볼 휴게 컨테이너 관리 구역 지정 (에어컨·히터·청결)</span>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+              <tr className="hover:bg-amber-50 transition-colors">
+                <td className="py-6 px-6 align-top border-r border-neutral-200">
+                  <div className="flex items-center justify-center gap-3">
+                    <div className="w-10 h-10 bg-amber-600 rounded-xl flex items-center justify-center">
+                      <span className="text-white text-lg font-black">📱</span>
+                    </div>
+                    <span className="text-2xl font-black text-neutral-900">운영체계<br/>등 기타</span>
+                  </div>
+                </td>
+                <td className="py-6 px-8">
+                  <ul className="space-y-3 text-xl text-neutral-700 leading-relaxed">
+                    <li className="flex items-start gap-3">
+                      <span className="text-amber-600 font-black">•</span>
+                      <span>상주기관 공용 회의·교육·인터뷰실 운영</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-amber-600 font-black">•</span>
+                      <span>대기실·교육장 분리 또는 확장(재주공항)</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-amber-600 font-black">•</span>
+                      <span>QR 건의 후 조치 완료 시 결과 회신 (카카오톡 방식 복원 등)</span>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </WebSlide>,
+
+    // Slide 18: 빈 슬라이드 (5페이지)
+    <WebSlide>
+      <div className="h-full flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-8xl mb-8">📋</div>
+          <h2 className="text-5xl font-black text-neutral-900 mb-4">설문조사 추가 자료</h2>
+          <p className="text-2xl text-neutral-500">Additional Survey Materials</p>
+        </div>
+      </div>
+    </WebSlide>,
+
+    // Slide 19: 웹사이트 소개
+    <WebSlide>
+      <SectionHeader 
+        label="19. Platform" 
         title="'공항 지상안전사고 예방' 웹사이트" 
       />
       <div 
@@ -1134,8 +1563,393 @@ export default function App() {
       </div>
     </WebSlide>,
 
+    // Slide 15: 설문조사 개요
+    <WebSlide>
+      <SectionHeader 
+        label="15. Survey" 
+        title="지상조업 사고예방 및 근무환경 개선 설문조사" 
+      />
+      <div className="flex flex-col justify-center h-full pt-32 px-12">
+        <div className="grid grid-cols-1 gap-6 max-w-5xl mx-auto">
+          <div className="bg-blue-50 border-l-4 border-blue-600 p-8 rounded-r-2xl">
+            <h3 className="text-2xl font-bold mb-4 text-blue-900">목적</h3>
+            <p className="text-xl text-neutral-700 leading-relaxed">
+              지상조업 현장 사고 예방 아이디어 발굴 및 근무환경 개선 방안 검토
+            </p>
+          </div>
+          
+          <div className="bg-neutral-50 border-l-4 border-neutral-600 p-8 rounded-r-2xl">
+            <h3 className="text-2xl font-bold mb-4 text-neutral-900">조사내용</h3>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="flex items-start gap-3">
+                <span className="text-blue-600 text-2xl">①</span>
+                <p className="text-xl text-neutral-700">근로자가 체감하는 지상조업 현장 위험도 및</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-blue-600 text-2xl">②</span>
+                <p className="text-xl text-neutral-700">사고 예방 아이디어,</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-blue-600 text-2xl">③</span>
+                <p className="text-xl text-neutral-700">작업환경 만족도 및</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-blue-600 text-2xl">④</span>
+                <p className="text-xl text-neutral-700">개선 아이디어 등</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-6">
+            <div className="bg-white border border-neutral-200 p-6 rounded-2xl shadow-lg">
+              <h4 className="text-lg font-bold mb-3 text-neutral-700">대상·기간</h4>
+              <p className="text-xl text-neutral-900">
+                공항공사·항공사·지상조업사 / '26.3.20~3.25 
+                <span className="text-blue-600 font-bold ml-2">* 참여자 74명</span>
+              </p>
+            </div>
+            <div className="bg-white border border-neutral-200 p-6 rounded-2xl shadow-lg">
+              <h4 className="text-lg font-bold mb-3 text-neutral-700">기타</h4>
+              <p className="text-xl text-neutral-900">
+                사고예방 아이디어, 근무환경 개선 방안 의견 제출자 각 10명에게 커피 쿠폰 제공
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </WebSlide>,
+
+    // Slide 16: 설문조사 결과 1 (위험도 인식)
+    <WebSlide>
+      <SectionHeader 
+        label="16. Survey Results" 
+        title="설문조사 결과 - 위험도 인식" 
+      />
+      <div className="flex flex-col justify-center h-full pt-32 px-12">
+        <div className="max-w-6xl mx-auto w-full">
+          <div className="bg-gradient-to-r from-red-50 to-orange-50 border-2 border-red-200 p-8 rounded-3xl mb-8">
+            <p className="text-2xl font-bold text-neutral-800 leading-relaxed">
+              <span className="text-red-600 text-3xl font-black">위험도 인식</span> 현장 근로자 
+              <span className="text-red-600 font-black text-3xl">47%</span>(35명)는 지상조업환경이 
+              <span className="text-red-600 font-black">위험하다</span>고 생각하고 있으며, 
+              <span className="text-orange-600 font-black text-3xl">27%</span>(20명)만 
+              <span className="text-orange-600 font-black">비교적 안전하다</span>고 생각하고 있음
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-8">
+            {/* 표 */}
+            <div className="bg-white p-6 rounded-2xl border-2 border-neutral-200 shadow-lg">
+              <h3 className="text-xl font-bold mb-4 text-center">위험도 인식 분포</h3>
+              <table className="w-full text-center">
+                <thead>
+                  <tr className="bg-neutral-900 text-white">
+                    <th className="py-3 px-2 text-sm">매우 위험</th>
+                    <th className="py-3 px-2 text-sm">위험</th>
+                    <th className="py-3 px-2 text-sm">보통</th>
+                    <th className="py-3 px-2 text-sm">조금 안전</th>
+                    <th className="py-3 px-2 text-sm">안전</th>
+                    <th className="py-3 px-2 text-sm">비고</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b">
+                    <td className="py-4 font-bold text-lg">9명<br/><span className="text-sm text-neutral-500">(12%)</span></td>
+                    <td className="py-4 font-bold text-lg">26명<br/><span className="text-sm text-neutral-500">(36%)</span></td>
+                    <td className="py-4 font-bold text-lg">19명<br/><span className="text-sm text-neutral-500">(26%)</span></td>
+                    <td className="py-4 font-bold text-lg">5명<br/><span className="text-sm text-neutral-500">(7%)</span></td>
+                    <td className="py-4 font-bold text-lg">15명<br/><span className="text-sm text-neutral-500">(20%)</span></td>
+                    <td className="py-4 font-bold text-lg">74명</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            {/* 그래프 */}
+            <div className="bg-white p-6 rounded-2xl border-2 border-neutral-200 shadow-lg flex items-center justify-center">
+              <div className="w-full h-64 flex items-end justify-around gap-2 px-4">
+                <div className="flex flex-col items-center flex-1">
+                  <div className="bg-red-600 rounded-t-lg transition-all hover:bg-red-700" style={{width: '100%', height: '48%'}}></div>
+                  <div className="text-xs font-bold mt-2 text-center">매우위험<br/>12%</div>
+                </div>
+                <div className="flex flex-col items-center flex-1">
+                  <div className="bg-orange-500 rounded-t-lg transition-all hover:bg-orange-600" style={{width: '100%', height: '100%'}}></div>
+                  <div className="text-xs font-bold mt-2 text-center">위험<br/>36%</div>
+                </div>
+                <div className="flex flex-col items-center flex-1">
+                  <div className="bg-yellow-400 rounded-t-lg transition-all hover:bg-yellow-500" style={{width: '100%', height: '72%'}}></div>
+                  <div className="text-xs font-bold mt-2 text-center">보통<br/>26%</div>
+                </div>
+                <div className="flex flex-col items-center flex-1">
+                  <div className="bg-green-400 rounded-t-lg transition-all hover:bg-green-500" style={{width: '100%', height: '28%'}}></div>
+                  <div className="text-xs font-bold mt-2 text-center">조금안전<br/>7%</div>
+                </div>
+                <div className="flex flex-col items-center flex-1">
+                  <div className="bg-blue-500 rounded-t-lg transition-all hover:bg-blue-600" style={{width: '100%', height: '56%'}}></div>
+                  <div className="text-xs font-bold mt-2 text-center">안전<br/>20%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </WebSlide>,
+
+    // Slide 17: 설문조사 결과 2 (근로환경 만족도)
+    <WebSlide>
+      <SectionHeader 
+        label="17. Survey Results" 
+        title="설문조사 결과 - 근로환경 만족도" 
+      />
+      <div className="flex flex-col justify-center h-full pt-32 px-12">
+        <div className="max-w-6xl mx-auto w-full">
+          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 p-8 rounded-3xl mb-8">
+            <p className="text-2xl font-bold text-neutral-800 leading-relaxed">
+              <span className="text-blue-600 text-3xl font-black">근로환경 만족도</span> 
+              <span className="text-blue-600 font-black text-3xl">77%</span>(57명)는 
+              <span className="text-blue-600 font-black">평균 이상</span>의 만족을 표시하였으며, 
+              <span className="text-orange-600 font-black text-3xl">23%</span>(17명)는 휴게공간, 근무시간, 상벌제도 등 
+              <span className="text-orange-600 font-black">불만족 반응</span>
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-8">
+            {/* 표 */}
+            <div className="bg-white p-6 rounded-2xl border-2 border-neutral-200 shadow-lg">
+              <h3 className="text-xl font-bold mb-4 text-center">근로환경 만족도 분포</h3>
+              <table className="w-full text-center">
+                <thead>
+                  <tr className="bg-neutral-900 text-white">
+                    <th className="py-3 px-2 text-sm">매우 불만족</th>
+                    <th className="py-3 px-2 text-sm">불만족</th>
+                    <th className="py-3 px-2 text-sm">보통</th>
+                    <th className="py-3 px-2 text-sm">조금 만족</th>
+                    <th className="py-3 px-2 text-sm">만족</th>
+                    <th className="py-3 px-2 text-sm">비고</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b">
+                    <td className="py-4 font-bold text-lg">5명<br/><span className="text-sm text-neutral-500">(7%)</span></td>
+                    <td className="py-4 font-bold text-lg">12명<br/><span className="text-sm text-neutral-500">(16%)</span></td>
+                    <td className="py-4 font-bold text-lg">29명<br/><span className="text-sm text-neutral-500">(39%)</span></td>
+                    <td className="py-4 font-bold text-lg">14명<br/><span className="text-sm text-neutral-500">(19%)</span></td>
+                    <td className="py-4 font-bold text-lg">14명<br/><span className="text-sm text-neutral-500">(19%)</span></td>
+                    <td className="py-4 font-bold text-lg">74명</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            {/* 그래프 */}
+            <div className="bg-white p-6 rounded-2xl border-2 border-neutral-200 shadow-lg flex items-center justify-center">
+              <div className="w-full h-64 flex items-end justify-around gap-2 px-4">
+                <div className="flex flex-col items-center flex-1">
+                  <div className="bg-red-600 rounded-t-lg transition-all hover:bg-red-700" style={{width: '100%', height: '28%'}}></div>
+                  <div className="text-xs font-bold mt-2 text-center">매우불만족<br/>7%</div>
+                </div>
+                <div className="flex flex-col items-center flex-1">
+                  <div className="bg-orange-500 rounded-t-lg transition-all hover:bg-orange-600" style={{width: '100%', height: '64%'}}></div>
+                  <div className="text-xs font-bold mt-2 text-center">불만족<br/>16%</div>
+                </div>
+                <div className="flex flex-col items-center flex-1">
+                  <div className="bg-yellow-400 rounded-t-lg transition-all hover:bg-yellow-500" style={{width: '100%', height: '100%'}}></div>
+                  <div className="text-xs font-bold mt-2 text-center">보통<br/>39%</div>
+                </div>
+                <div className="flex flex-col items-center flex-1">
+                  <div className="bg-green-400 rounded-t-lg transition-all hover:bg-green-500" style={{width: '100%', height: '76%'}}></div>
+                  <div className="text-xs font-bold mt-2 text-center">조금만족<br/>19%</div>
+                </div>
+                <div className="flex flex-col items-center flex-1">
+                  <div className="bg-blue-500 rounded-t-lg transition-all hover:bg-blue-600" style={{width: '100%', height: '76%'}}></div>
+                  <div className="text-xs font-bold mt-2 text-center">만족<br/>19%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </WebSlide>,
+
+    // Slide 18: 안전사고 예방 아이디어
+    <WebSlide>
+      <SectionHeader 
+        label="18. Prevention Ideas" 
+        title="지상조업 안전사고 예방 아이디어" 
+      />
+      <div className="flex flex-col justify-center h-full pt-32 px-8">
+        <div className="max-w-6xl mx-auto w-full">
+          <table className="w-full bg-white rounded-2xl overflow-hidden shadow-2xl border-2 border-neutral-200">
+            <thead>
+              <tr className="bg-neutral-900 text-white">
+                <th className="py-4 px-6 text-left w-1/4 text-lg">구분</th>
+                <th className="py-4 px-6 text-left text-lg">내용</th>
+              </tr>
+            </thead>
+            <tbody className="text-lg">
+              <tr className="border-b border-neutral-200 hover:bg-blue-50 transition-colors">
+                <td className="py-5 px-6 font-bold text-neutral-700">차량·장비</td>
+                <td className="py-5 px-6">
+                  <ul className="space-y-2">
+                    <li className="flex items-start gap-2">
+                      <span className="text-blue-600">•</span>
+                      <span>터그카 후진 시 후진등·경광등 설치 의무화</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-blue-600">•</span>
+                      <span>항공기 접현 경비 유도수 배치 및 시행 문햄</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-blue-600">•</span>
+                      <span>화물터미널 터그카·지게차 단속 강화, 인도·항공기 주변 달리 적재 금지</span>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+              <tr className="border-b border-neutral-200 hover:bg-blue-50 transition-colors">
+                <td className="py-5 px-6 font-bold text-neutral-700">안전 인프라</td>
+                <td className="py-5 px-6">
+                  <ul className="space-y-2">
+                    <li className="flex items-start gap-2">
+                      <span className="text-blue-600">•</span>
+                      <span>브릿지 계단 논슬립(고정식 미끄럼방지 테이프·타공형 매트) 강화</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-blue-600">•</span>
+                      <span>BSA 구역·GSE 도로 3거리 등 반사경·블라드·반사띠 설치</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-blue-600">•</span>
+                      <span>장비경치장 확대 및 장비별(버스, 벨트, 터그카) 구역 지정</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-blue-600">•</span>
+                      <span>원격주기장 승객 동선 등재, 차량 진출입 시 경광등·차별색 적용</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-blue-600">•</span>
+                      <span>야간 리모트 주기장 조도 향상 대책 마련</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-blue-600">•</span>
+                      <span>장비경치장에 항공기 무어링포인트 방식의 장비 무어링포인트 설치</span>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+              <tr className="hover:bg-blue-50 transition-colors">
+                <td className="py-5 px-6 font-bold text-neutral-700">제도</td>
+                <td className="py-5 px-6">
+                  <ul className="space-y-2">
+                    <li className="flex items-start gap-2">
+                      <span className="text-blue-600">•</span>
+                      <span>낙뢰 발생 시 공공기관 주도 작업중단 권한 명확화</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-blue-600">•</span>
+                      <span>운전석·조수석 휴대폰 사용 전면 금지 및 처벌규정 신설</span>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </WebSlide>,
+
+    // Slide 19: 근로환경 개선 아이디어
+    <WebSlide>
+      <SectionHeader 
+        label="19. Work Environment Ideas" 
+        title="근로환경 개선 아이디어" 
+      />
+      <div className="flex flex-col justify-center h-full pt-32 px-8">
+        <div className="max-w-6xl mx-auto w-full">
+          <table className="w-full bg-white rounded-2xl overflow-hidden shadow-2xl border-2 border-neutral-200">
+            <thead>
+              <tr className="bg-neutral-900 text-white">
+                <th className="py-4 px-6 text-left w-1/4 text-lg">구분</th>
+                <th className="py-4 px-6 text-left text-lg">내용</th>
+              </tr>
+            </thead>
+            <tbody className="text-lg">
+              <tr className="border-b border-neutral-200 hover:bg-green-50 transition-colors">
+                <td className="py-5 px-6 font-bold text-neutral-700">휴게시설</td>
+                <td className="py-5 px-6">
+                  <ul className="space-y-2">
+                    <li className="flex items-start gap-2">
+                      <span className="text-green-600">•</span>
+                      <span>야외 근무자 폭염·강추위 시 열 식히거나 추위 피할 휴게공간 확대</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-green-600">•</span>
+                      <span>대기실·휴게실 정결 및 냉난방 개선</span>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+              <tr className="border-b border-neutral-200 hover:bg-green-50 transition-colors">
+                <td className="py-5 px-6 font-bold text-neutral-700">장비지원</td>
+                <td className="py-5 px-6">
+                  <ul className="space-y-2">
+                    <li className="flex items-start gap-2">
+                      <span className="text-green-600">•</span>
+                      <span>BSA·주기장 먼지 제거 출입 차량 도입 및 주기적 청소</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-green-600">•</span>
+                      <span>국제선 BSA 출발 벨트 수 확대 및 공간 확장</span>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+              <tr className="border-b border-neutral-200 hover:bg-green-50 transition-colors">
+                <td className="py-5 px-6 font-bold text-neutral-700">위생</td>
+                <td className="py-5 px-6">
+                  <ul className="space-y-2">
+                    <li className="flex items-start gap-2">
+                      <span className="text-green-600">•</span>
+                      <span>화장실 환경 개선 및 상주직원 확장실 주기적인 청소</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-green-600">•</span>
+                      <span>작업자 개인우의 건조 공간 및 탈의실 청도</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-green-600">•</span>
+                      <span>랜프사이드 스맷볼 휴게 컨테이너 관리 구역 지정 (에어컨·히터·청결)</span>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+              <tr className="hover:bg-green-50 transition-colors">
+                <td className="py-5 px-6 font-bold text-neutral-700">운영체계 등 기타</td>
+                <td className="py-5 px-6">
+                  <ul className="space-y-2">
+                    <li className="flex items-start gap-2">
+                      <span className="text-green-600">•</span>
+                      <span>상주기관 공용 회의·교육·인터뷰실 운영</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-green-600">•</span>
+                      <span>대기실·교육장 물리 또는 확장(제주공항)</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-green-600">•</span>
+                      <span>QR 건의 후 조치 완료 시 결과 회신 (카카오톡 방식 복원 등)</span>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </WebSlide>,
+
     
-    // Slide 16: Thank You
+    // Slide 20: Thank You
     <WebSlide>
       <div className="h-full flex flex-col justify-center items-center text-center relative overflow-hidden">
         {/* Background Gradient Effects */}
